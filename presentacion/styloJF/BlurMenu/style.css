@@ -1,0 +1,306 @@
+
+/*Tamaños de letra*/
+
+.letraChica {
+font-family: Arial, Helvetica, sans-serif;
+font-size: 9px;
+}
+
+.letraU {
+font-family: Arial, Helvetica, sans-serif;
+font-size: 9px;
+color: #191970;
+}
+
+.letraMedia {
+font-weight: bold;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 15px;
+color: #191970;
+}
+
+.letraConsult {
+font-weight: bold;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 20px;
+color: #000000;
+}
+
+.letraGrande {
+font-weight: bold;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 50px;
+color: #191970;
+}
+
+.letraMuyGrande{
+font-weight: bold;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 60px;
+color: #000000;
+}
+
+
+#page {
+	
+	width: 1300px;
+	margin: 60px auto 0px auto;
+	padding :10px 10px 10px 10px;
+	background: #D3D3D3;
+	border: 1px solid rgba(0,0,0,.05);
+	box-shadow: 0px 0px 0px 10px rgba(0,0,0,0.03);
+	border-radius: 8px;
+	text-decoration: none;
+	text-align: center;
+	text-transform: uppercase;
+	
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	/*background: #F0F8FF  ;*/
+	background: url('fondo.jpg') no-repeat; 
+	font-family: 'Open Sans', sans-serif;
+	font-size: 13px;
+	color: #3B3B3B;
+	text-align: center;
+	width: 100%;
+}
+
+	body:after
+	{
+		content: '';
+		position: fixed;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+		opacity: .05;
+	}
+
+div
+{
+	margin: 0;
+	padding: 0;
+	background: #228B22  ;
+	border: 1px solid rgba(0,0,0,.05);
+	box-shadow: 0px 0px 15px 20px rgba(0,0,0,0.13);
+	border-radius: 8px;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 15px;
+	color: #F0F8FF  ;
+	text-align: center;
+	width: 100%;
+}
+
+button
+{
+	padding: 10px 15px;
+	background: #228B22;
+	border-radius: 5px;
+	box-shadow: 0px 0px 15px 15px rgba(0,0,0,0.13);
+	text-transform: uppercase;
+	font-size: 12px;
+	color: #FFF;
+}
+
+input
+{
+	width: 120px;
+	outline: none;
+	background: #F0F8FF;
+	border: 1px solid #D7D0C0;
+	padding: 10px;
+	border-radius: 8px;
+	box-shadow: 0px 0px 15px 15px rgba(0,0,0,0.13);
+	text-transform: lowercase;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 12px;
+	color: #228B22;
+}
+
+select
+{
+	outline: none;
+	background: #F0F8FF;
+	border: 1px solid #D7D0C0;
+	padding: 10px;
+	border-radius: 8px;
+	box-shadow: 0px 0px 15px 15px rgba(0,0,0,0.13);
+	text-transform: lowercase;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 12px;
+	color: #228B22;
+}
+
+h1, h2, h3 {
+	margin: 0px;
+	padding: 0px;
+	letter-spacing: -2px;
+	text-transform: capitalize;
+	font-weight: normal;
+	color: #FFF;
+}
+
+
+
+h1 {
+	font-size: 2em;
+}
+
+h2 {
+	font-size: 2.4em;
+}
+
+h3 {
+	font-size: 1.6em;
+}
+
+p, ul, ol {
+	margin-top: 0;
+	line-height: 180%;
+}
+
+ul, ol {
+}
+
+a {
+	text-decoration: none;
+	color: #383838;
+}
+
+a:hover {
+}
+
+img
+{
+	border-radius: 8px;
+	box-shadow: inset 0px 0px 10px rgba(0,0,0,0.9);
+}
+
+/* Menu */
+
+menu {
+	position: relative;
+	overflow: hidden;
+	height: 30px;
+	background: #228B22;
+	padding: 20px;
+}
+		menu:after
+		{
+			content: '';
+			position: absolute;
+			left: 0;
+			top: 30;
+			width: 100%;
+			height: 100%;
+			z-index: -1;
+			opacity: 1;
+		}
+
+menu {
+	width: 200px;
+	height: auto;
+	margin: 0px auto;
+	padding: 7px;
+}
+
+menu ul {
+	margin: 0;
+	padding: 10px 0px 0px 0px;
+	list-style: none;
+	line-height: normal;
+	text-align: center;
+}
+
+menu li {
+	display: inline-block;
+	border-left: 2px solid #FFF;
+}
+
+	menu li:first-child
+	{
+		border-left: none;
+	}
+
+menu a {
+	display: block;
+	letter-spacing: 1px;
+	margin: 0px 15px;
+	padding: 10px 20px;
+	text-decoration: none;
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 10px;
+	font-weight: normal;
+	color: #FFF;
+	border: double;
+}
+
+menu a:hover, menu .current_page_item a {
+	text-decoration: none;
+	color: #8FBC8B ;
+}
+
+menu .current_page_item a {
+	text-decoration: none;
+	color: #A9A9A9;
+}
+
+
+.image-shadow{
+	border-radius: 8px;
+	box-shadow: inset 0px 0px 10px rgba(0,0,0,0.2);
+}
+
+/* Barra */
+
+#barra {
+clear:both; 
+position: fixed; 
+top:0; 
+left:0; 
+font-size: 10pt; 
+width: 100%;  
+padding: 0px; 
+margin:0px 0px 0px 0px; 
+height: 40px; 
+background-color: #17294B;
+color: #DDD;
+z-index: 99;
+
+}
+
+#barraImage
+{
+float:left; 
+margin-top:10px;
+margin-left:10px; 
+background: url('/produ/includes/images/malvinasargentinas.icon.png') no-repeat; 
+width: 20px; 
+height: 25px;
+}
+
+#barra a
+{
+font-weight: bold;
+}
+
+#barra a:LINK
+{
+color: #AAA;
+}
+
+#barra a:VISITED
+{
+color: #AAA;
+}
+
+#barra a:HOVER
+{
+color: #FFF;
+}
+

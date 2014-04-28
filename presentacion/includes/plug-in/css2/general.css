@@ -1,0 +1,217 @@
+
+/* CSS Document */
+
+A:link 
+{
+	text-decoration:none;
+	color:#ffffff;
+}
+
+A:visited {
+	text-decoration:none;
+	color:#ffcc33;
+}
+
+
+A:active {
+	text-decoration:none;
+	color:#ff0000;
+}
+
+A:hover {
+	text-decoration:underline;
+	color:#99FF00;
+} 
+	
+body{
+	background:#CCC; 
+	color: #1A1C1E;
+}
+		
+#centro{
+	width: 900px; 
+	margin: 10px auto 0 auto; 
+	border: 0px silver solid; 
+	background: #CCC;
+}
+		
+#encabezado{
+	width: 880px; 
+	height:200px; 
+	padding: 0px 0px 0px 0px; 
+	color: #1A1C1E; 
+	margin: 0px 0px 0px 0px; 
+	vertical-align:top; 
+	}
+		
+#LOGO{
+	width:180px; 
+	height:180px; 
+	float:left; 
+	padding: 0px 0px 0px 0px; 
+	margin: 0px 0px 0px 0px;
+}
+		
+#TituloPrincipal{
+	width:508px; 
+	height:180px; 
+	float:left; 
+	padding: 0px 0px 0px 0px; 
+	background-image:url(../images/TituloTrans.png); 
+	margin: 0px 0px 0px 0px
+}
+		
+#DatosUsuario{
+	width:192px; 
+	height:180px; 
+	float:left; 
+	padding: 0px 0px 0px 0px; 
+	background-image:url(../images/geoidea192.png); 
+	margin: 0px  0px 0px 0px
+	}
+		
+#pieEncabezado{
+	width:868px; 
+	height:20px; 
+	clear:both; 
+	top:0px; 
+	left:0px; 
+	padding: 0px 0px 0px 0px; 
+	margin: 0px 0px 0px 0px; 
+	background: #000000;
+	color: #F29400; 
+	font-weight: bold; 
+	background-image:url(../images/barrainf2.png); 
+	margin: 0px
+}
+		
+#pieEncabezado p{
+	font-family:Arial, Times, serif; 
+	margin: 0px 0px 0px 0px; 
+	padding:0px 0px 0px 0px;
+}
+		
+		
+h1{
+	text-align: center; 
+	font-size:36px
+}
+		
+#columna{ 
+	width: 145px; 
+	height:600px; 
+	float: left; 
+	background: #3B89C4; 
+	vertical-align:text-bottom:bottom; 
+	text-align:left; 
+	padding:0px; margin:0px
+}
+
+
+#columna A:link 
+{
+	text-decoration:none;
+	color:#3B89C4;
+}
+
+#columna A:visited {
+	text-decoration:none;
+	color:#3B89C4;
+}
+
+
+#columna A:active {
+	text-decoration:none;
+	color:#3B89C4;
+}
+
+#columna A:hover {
+	text-decoration:underline;
+	color:#3B89C4;
+}
+
+
+
+#contenido{
+	width:720px; 
+	float: left; 
+	background: #fff; 
+	padding: 5px 10px 5px 10px; 
+	border-left: solid 1px #000; 
+	border-right:solid 1px #000; 
+	padding:0px; margin:0px
+}
+		
+		
+		
+		
+#pie{
+	clear: both;  
+	background: #3B89C4; 
+	height:100px;
+	width:868px
+}
+		
+#barraPie{
+	width:868px; 
+	height:20px; 
+	clear:both; 
+	top:0px; 
+	left:0px; 
+	padding: 0px 0px 0px 0px; 
+	margin: 0px 0px 0px 0px; 
+	background: #000000;
+	color: #FFFFFF; 
+	font-weight: bold; 
+	background-image:url(../images/barrainf2.png); 
+	margin: 0px; 
+	text-align:right
+}
+		
+#contacto{ 
+	padding: 0px 0px 0px 0px; 
+	margin: 0px 0px 0px 0px
+}
+#contacto p{
+	font-family:Arial, Times, serif; 
+	color:#000; 
+	font-size:12px; 
+	padding:0px; margin: 0px
+}
+
+.acordElem {font-family:Arial, Times, serif; font-size:14px}
+
+.box {border:0px solid #0000FF; width:680px; margin:10px}
+.box h3 {background:#C6FFFF;color:black;padding:5px; }
+.box p {color:#333;padding:5px;}
+
+.mailbox {border:0px solid #000000; margin:10px ; position:relative;  top: 50px; }
+.mailbox  h3 {background:#CCC;color:black;padding:5px;margin:0 }
+.mailbox  p {color:#333;padding:5px;}
+.message {width:300px; background:#FC9; border:1px #000; text-align:center}
+#menu{
+	top:20px;
+	height:160px;
+	margin:0,0,0,0;
+	padding:0,0,0,0;
+}
+		
+#menu ul, li {
+	list-style-type: square;
+	margin: 5;
+	padding: 5;
+}
+
+#menu ul {
+	margin: 0;
+	padding: 0;
+}
+
+#completar {
+	font-family:arial;
+	background-color: #CDCDCD;
+	margin:10px 0pt 15px;
+	font-size: 8pt;
+	width: 100%;
+	text-align: left;
+}

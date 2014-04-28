@@ -1,0 +1,217 @@
+
+
+.logo{
+	font-size: 12px;
+	color: #f6b400;
+}
+
+.tagline{
+	color: #fff;
+	font-size: 13px;
+}
+
+/**
+* The top row of the demo examples 
+*/
+.row{
+	color: #333;
+	width: 960px;
+	margin: 0 auto;
+	padding: 30px 0 0;
+	clear: both;
+}
+
+/**
+* The bottom row of the demo examples, beginning with "Basic Usage"
+*/
+.row.bottom{
+	padding: 0;
+}
+
+/*
+* left & right halves of the rows
+*/
+
+
+.column{
+	width: 470px;
+	margin: 0;
+	padding: 0;
+	float: left;
+}
+
+.column.right{
+	margin: 0 0 0 20px;
+	font-size: 14px;
+}
+
+
+/**
+* default class for parent container of button & content
+*/
+.exterior{
+	margin-bottom: 10px;
+}
+
+column.right.exterior{
+	margin-bottom: 10px;
+}
+
+.exterior div{
+	width: 100px;
+	padding: 20px;
+	position: relative;
+}
+
+.open, .closed, .ajax, .duration{
+	-webkit-border-radius: 0 0 14px 14px;
+	-moz-border-radius: 0 0 14px 14px;
+	border-radius: 0 0 14px 14px;
+	behavior: url(PIE/PIE.php);
+	background: #f6f6f6;
+}
+
+
+/**
+* default class for the button containers
+*/
+.exterior div.boton{
+	position: relative;
+	margin: 0;
+	height: 20px;
+	width: 100px;
+	padding: 10px;
+	background: #333;
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#666), to(#333));
+	background: -moz-linear-gradient(#666, #333);
+	background: linear-gradient(#666, #333);
+	-pie-background: linear-gradient(#666, #333);
+	border: 1px solid #545454;
+	-webkit-border-radius: 14px;
+	-moz-border-radius: 14px;
+	border-radius: 14px;
+	behavior: url(PIE/PIE.php);
+}
+
+
+/**
+* headings & paragraphs
+*/
+
+
+.ajax h3{margin-top: 0;}
+
+.ajax h3 span{color: #F6B400;}
+
+.exterior p, .exterior h4{
+	padding: 0;
+	margin: 0 0 10px;
+	color: #333;
+}
+
+.exterior p{
+	font-size: 12px;
+}
+
+
+/**
+* lists & links
+*/
+
+ul li{
+	margin-bottom: 10px;
+}
+
+a{color: transparent; text-decoration: none;}
+
+a.Xpandable{
+    border-bottom: 9px solid transparent;
+    border-left: 9px solid #fff;
+    border-top: 9px solid transparent;
+    display: block;
+    float: left;
+    height: 0;
+    left: 10px;
+    position: relative;
+    top: 6px;
+    width: 0;
+}
+
+.open a, .closed a{
+	font-weight: bold;
+	color: #ffb400;
+}
+/**
+* active states
+*/
+
+.exterior div.bc-active{
+	margin: 0;
+	padding: 10px;
+	position: relative;
+	border: 1px solid #545454;
+	-webkit-border-radius: 14px 14px 0 0;
+	-moz-border-radius: 14px 14px 0 0;
+	border-radius: 14px 14px 0 0;
+	behavior: url(PIE/PIE.php);
+}
+
+.content-active{
+	width: 428px;
+	border-style: solid; 
+	border-color: #333;
+	border-width: 0 1px 1px;
+	-webkit-border-radius: 0 0 14px 14px;
+	-moz-border-radius: 0 0 14px 14px;
+	-border-radius-bottomright: 0 0 14px 14px;
+	behavior: url(PIE/PIE.php);
+}
+
+a.Xpandable.link-active{
+	top: 8.5px;
+	left: 6px;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 9px solid #fff;
+}
+
+
+/**
+* spans
+*/
+
+.closed span{
+	display: block;
+	margin: 15px 0 4px;
+}
+/*
+.open.container-active span{
+	margin: 0;
+}
+*/
+
+.boton span {
+	color: #fff;
+	position: absolute; 
+	left: 60px;
+	top: 10px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.boton a.mylink {
+	color: #fff;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.open span{
+	color: #333;
+	/*display: block;*/
+	font-size: 14px;
+	margin: 0 0 15px 15px;
+}
+
+.column.left span{
+	margin: 0;
+}
