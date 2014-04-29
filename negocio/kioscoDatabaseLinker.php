@@ -479,7 +479,7 @@ class KioscoDatabaseLinker
 
 	function getTurnos()
 	{
-
+		//o_o
 	}
 
 	function traerIngresos($idproducto, $idcaja)
