@@ -275,7 +275,7 @@ class KioscoDatabaseLinker
 		return $nroIdCaja;
 	}
 
-	function finalizarCaja($saldoFinal, $idCaja)
+	function finalizarCaja($saldoFinal, $idCaja) //el idcaja se tiene que mandar automaticamente
 	{
 		$query="UPDATE
 						caja
@@ -314,7 +314,7 @@ class KioscoDatabaseLinker
 		try
 			{
 				$this->dbKiosco->conectar();
-				$this->dbKiosco->ejecutarQuery($query);
+				$this->dbKiosco->ejecutarAccion($query);
 			}
 			catch (Exception $e)
 			{
@@ -331,7 +331,7 @@ class KioscoDatabaseLinker
 	function ultimaCajaSinCerrar($idTurno)
 	{
 		$query="SELECT
-					idcaja
+					idcaja, saldo_inicial, idturno
 				FROM
 					caja
 				WHERE
@@ -342,7 +342,7 @@ class KioscoDatabaseLinker
 		try 
 			{
 				$this->dbKiosco->conectar();
-				$this->dbKiosco->ejecutarAccion($query);
+				$this->dbKiosco->ejecutarQuery($query);
 			} 
 			catch (Exception $e) 
 			{
@@ -354,7 +354,7 @@ class KioscoDatabaseLinker
 
 		$this->dbKiosco->desconectar();
 
-		return $result['idcaja'];
+		return $result;
 
 	}
 
@@ -365,7 +365,30 @@ class KioscoDatabaseLinker
 				FROM
 					caja
 				WHERE
-					idcaja=MAX(idcaja);";
+					idcaja=(SELECT MAX(idcaja) FROM caja);";
+
+		try
+			{
+				$this->dbKiosco->conectar();
+				$this->dbKiosco->ejecutarQuery($query);
+			}
+		catch (Exception $e)
+			{
+				throw new Exception("Error al conectar con la base de datos", 17052013);
+			}
+
+		$result = $this->dbKiosco->fetchRow();
+
+		$this->dbKiosco->desconectar();
+
+		if($result['saldo_final'] == NULL)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 
 	}
 
@@ -378,6 +401,58 @@ class KioscoDatabaseLinker
 		try
 			{
 				$this->dbKiosco->conectar();
+				$this->dbKiosco->ejecutarAccion($query);
+			}
+		catch (Exception $e)
+			{
+				throw new Exception("Error al conectar con la base de datos", 17052013);
+			}
+		
+		$this->dbKiosco->desconectar();
+
+	} 
+
+	function confirmarCarrito($idturno, $idcaja, Movimiento $movimiento)
+	{
+		try
+			{
+				$idcarrito=$this->nuevoCarrito($idturno, $idcaja);
+			}
+		catch (Exception $e)
+			{
+				throw new Exception("Error al conectar con la base de datos", 17052013);
+			}
+
+		try //savepoint en registrarMovimiento
+		{
+			$cargo = $this->registrarMovimiento($idCaja,$movimiento);
+		} 
+		catch (Exception $e) 
+		{
+			throw new Exception("error al registrar el movimiento", 17052013);
+		}
+		
+		if(!$cargo)
+		{
+			$this->eliminarMovimiento();
+
+		}
+
+		//$rollback = "COMMIT;"; //en registrar movimiento
+		////$this->dbKiosco->desconectar();
+		return $idcarrito;
+
+	}
+
+	function registrarMovimiento(idcaja, Movimiento $movimiento)
+	{
+		$completado = true;
+
+		$query="SAVEPOINT savepoint;";
+
+		try
+			{
+				$this->dbKiosco->conectar();
 				$this->dbKiosco->ejecutarQuery($query);
 			}
 		catch (Exception $e)
@@ -385,7 +460,63 @@ class KioscoDatabaseLinker
 				throw new Exception("Error al conectar con la base de datos", 17052013);
 			}
 
-	} 
+		for($i=0; $i<$movimiento->getCantidadItems(); $i++)
+		{
+			$item = $movimiento->getItem($i);
+			try 
+			{
+				$this->registrarEgresosDetalle($idcaja, $item);
+			}
+			catch (Exception $e)
+			{
+				$completado = false;
+				break;
+			}
+		}
+
+		$query = "COMMIT;";
+
+		try
+			{
+				$this->dbKiosco->conectar();
+				$this->dbKiosco->ejecutarQuery($query);
+			}
+		catch (Exception $e)
+			{
+				throw new Exception("Error al conectar con la base de datos", 17052013);
+			}
+
+		$this->dbKiosco->desconectar();
+
+		return $completado;
+	}
+
+	function eliminarMovimiento()
+	{
+		$rollback = "ROLLBACK TO SAVEPOINT savepoint;"; 
+			$this->dbKiosco->conectar();
+			$this->dbKiosco->ejecutarQuery($query);
+	}
+
+
+	function registrarEgresosDetalle($idcaja, ItemMovimiento $item, $index, $idcarrito)
+	{
+		$query="INSERT INTO egreso (idcarrito, cantidad, datetime, idproducto)
+				VALUES (".$idcarrito.", ".$item->getCantidad().",now(),".$item->getProducto()." ); ";
+
+		try
+			{
+				$this->dbKiosco->conectar();
+				$this->dbKiosco->ejecutarAccion($query);
+			}
+		catch (Exception $e)
+			{
+				throw new Exception("Error al conectar con la base de datos", 17052013);
+			}
+		
+		$this->dbKiosco->desconectar();
+	}
+
 
 	function agregarEgreso($valor, $idcarrito, $idproducto, $cantidad, $fecha)
 	{
@@ -402,6 +533,8 @@ class KioscoDatabaseLinker
 			{
 				throw new Exception("Error al conectar con la base de datos", 17052013);
 			}
+
+		$this->dbKiosco->desconectar();
 
 	}
 
@@ -421,6 +554,8 @@ class KioscoDatabaseLinker
 				throw new Exception("Error al conectar con la base de datos", 17052013);
 			}
 
+		$this->dbKiosco->desconectar();
+
 	}
 
 	function agregarIngreso($idprov, $idfact, $idcaja, $idprod, $cant, $datetime)
@@ -438,6 +573,8 @@ class KioscoDatabaseLinker
 			{
 				throw new Exception("Error al conectar con la base de datos", 17052013);
 			}
+
+		$this->dbKiosco->desconectar();
 
 	}
 
@@ -457,6 +594,8 @@ class KioscoDatabaseLinker
 				throw new Exception("Error al conectar con la base de datos", 17052013);
 			}
 
+		$this->dbKiosco->desconectar();
+
 	}
 
 	function agregarTurno($idturno, $desc)
@@ -474,6 +613,8 @@ class KioscoDatabaseLinker
 			{
 				throw new Exception("Error al conectar con la base de datos", 17052013);
 			}
+
+		$this->dbKiosco->desconectar();
 
 	}
 

@@ -10,8 +10,10 @@ $obj = new kioscoDatabaseLinker();
 
 //var_dump($id);
 
-$entro = $obj->finalizarCaja('3990.856', 2);
+$entro = $obj->finalizarCaja('5', 6);
 
-var_dump($entro);
+var_dump($obj->hayCajaSinCerrar());
+
+//var_dump($id['idturno']);
 
 ?>
