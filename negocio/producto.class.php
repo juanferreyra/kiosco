@@ -1,6 +1,6 @@
 <?php
 
-class Producto 
+class Producto
 {
 	
 	var $id;

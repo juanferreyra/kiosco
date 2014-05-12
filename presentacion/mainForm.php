@@ -23,6 +23,10 @@
 
 		<script src="includes/js/mainForm.js" type="text/javascript"></script>
 
+		<?php
+		include_once '../negocio/kioscoDatabaseLinker.php';
+		?>
+
 	</head>
 	<body>
 		<div class="container">
@@ -102,7 +106,19 @@
 								<!-- Dialogos de menejo de productos -->
 
 								<div id="dialogVerProducto" style="visibility: hidden;">
-									Dialogo Ver productos
+									<?php
+									
+									$obj = new kioscoDatabaseLinker();
+									$ret = $obj->getProductos();
+
+									echo("<ul>");
+									for($i=0; $i<count($ret); $i++)
+									{
+										echo("<li>".$ret[$i]->getNombre()."</li>");
+									}
+									echo("</ul>");
+
+									?> 
 								</div>
 
 								<div id="dialogAgregarProducto" style="visibility: hidden;">

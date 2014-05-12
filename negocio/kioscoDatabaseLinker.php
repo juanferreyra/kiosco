@@ -3,6 +3,8 @@ include_once 'conectionData.php';
 include_once 'dataBaseConnector.php';
 include_once 'producto.class.php';
 include_once 'proveedor.class.php';
+include_once 'movimiento.class.php';
+include_once 'itemMovimiento.class.php';
 
 class KioscoDatabaseLinker
 {
@@ -392,31 +394,61 @@ class KioscoDatabaseLinker
 
 	}
 
-	function agregarCarrito($idcaja, $monto, $fecha)
+	function nuevoCarrito($idcaja)
 	{
-		$query = "INSERT INTO carrito (idcaja, monto_venta_total, datetime)
-						VALUES (".$idcaja.", ".$monto.", '".$fecha."') ;"; /* INSERT INTO carrito (idcarrito, idcaja, monto_venta_total, datetime)
-						VALUES (".$idcarrito.",".$idcaja.", ".$monto.", ".$fecha.") ; */
-
 		try
 			{
 				$this->dbKiosco->conectar();
-				$this->dbKiosco->ejecutarAccion($query);
 			}
-		catch (Exception $e)
+			catch (Exception $e)
 			{
-				throw new Exception("Error al conectar con la base de datos", 17052013);
+				throw new Exception("No se pudo insertar el dato en la tabla", 201230);
 			}
 		
+		$query="SELECT 
+					IFNULL(MAX(idcarrito),0)+1 AS proximo
+				FROM 
+				  	carrito;";
+		
+		try
+			{
+				$this->dbKiosco->ejecutarQuery($query);
+			}
+			catch (Exception $e)
+			{
+				throw new Exception("No se pudo obtener el proximo nro para el ingreso", 201230);
+			}
+
+		$result = $this->dbKiosco->fetchRow();
+
+		$nroIdCarrito = $result['proximo'];
+
+		$query2 = "INSERT INTO 
+								carrito (idcarrito,idcaja, datetime)
+						VALUES 
+								(".$nroIdCarrito.", ".$idcaja.", now());";
+
+		try
+			{
+				$this->dbKiosco->ejecutarAccion($query);
+			}
+			catch (Exception $e)
+			{
+				throw new Exception("No se pudo ejecutar la accion del insert", 201230);
+			}		
+
 		$this->dbKiosco->desconectar();
+
+		return $nroIdCarrito;
+
 
 	} 
 
-	function confirmarCarrito($idturno, $idcaja, Movimiento $movimiento)
+	function confirmarCarrito($idcaja, Movimiento $movimiento)
 	{
 		try
 			{
-				$idcarrito=$this->nuevoCarrito($idturno, $idcaja);
+				$idcarrito=$this->nuevoCarrito($idcaja);
 			}
 		catch (Exception $e)
 			{
@@ -425,7 +457,7 @@ class KioscoDatabaseLinker
 
 		try //savepoint en registrarMovimiento
 		{
-			$cargo = $this->registrarMovimiento($idCaja,$movimiento);
+			$cargo = $this->registrarMovimiento($idcarrito,$movimiento);
 		} 
 		catch (Exception $e) 
 		{
@@ -437,14 +469,32 @@ class KioscoDatabaseLinker
 			$this->eliminarMovimiento();
 
 		}
+		else
+		{
+		    $this->finalizarCarrito();
+		}
 
-		//$rollback = "COMMIT;"; //en registrar movimiento
-		////$this->dbKiosco->desconectar();
 		return $idcarrito;
+	} 
 
+	function finalizarCarrito()
+	{
+		$query = "COMMIT;";
+
+		try
+			{
+				$this->dbKiosco->conectar();
+				$this->dbKiosco->ejecutarQuery($query);
+			}
+		catch (Exception $e)
+			{
+				throw new Exception("Error al conectar con la base de datos", 17052013);
+			}
+
+		$this->dbKiosco->desconectar();
 	}
 
-	function registrarMovimiento(idcaja, Movimiento $movimiento)
+	function registrarMovimiento($idcarrito, Movimiento $movimiento)
 	{
 		$completado = true;
 
@@ -460,12 +510,12 @@ class KioscoDatabaseLinker
 				throw new Exception("Error al conectar con la base de datos", 17052013);
 			}
 
-		for($i=0; $i<$movimiento->getCantidadItems(); $i++)
+		for($i=0; $i<$movimiento->getCantItems(); $i++)
 		{
 			$item = $movimiento->getItem($i);
 			try 
 			{
-				$this->registrarEgresosDetalle($idcaja, $item);
+				$this->registrarEgresosDetalle($idcarrito, $item);
 			}
 			catch (Exception $e)
 			{
@@ -474,19 +524,6 @@ class KioscoDatabaseLinker
 			}
 		}
 
-		$query = "COMMIT;";
-
-		try
-			{
-				$this->dbKiosco->conectar();
-				$this->dbKiosco->ejecutarQuery($query);
-			}
-		catch (Exception $e)
-			{
-				throw new Exception("Error al conectar con la base de datos", 17052013);
-			}
-
-		$this->dbKiosco->desconectar();
 
 		return $completado;
 	}
@@ -495,14 +532,14 @@ class KioscoDatabaseLinker
 	{
 		$rollback = "ROLLBACK TO SAVEPOINT savepoint;"; 
 			$this->dbKiosco->conectar();
-			$this->dbKiosco->ejecutarQuery($query);
+			$this->dbKiosco->ejecutarQuery($rollback);
+		$this->dbKiosco->desconectar();
 	}
 
-
-	function registrarEgresosDetalle($idcaja, ItemMovimiento $item, $index, $idcarrito)
+	function registrarEgresosDetalle($idcarrito, ItemMovimiento $item)
 	{
 		$query="INSERT INTO egreso (idcarrito, cantidad, datetime, idproducto)
-				VALUES (".$idcarrito.", ".$item->getCantidad().",now(),".$item->getProducto()." ); ";
+				VALUES (".$idcarrito.", ".$item->getCantidad().",now(),".$item->getProducto()->getId()."); ";
 
 		try
 			{
@@ -517,13 +554,10 @@ class KioscoDatabaseLinker
 		$this->dbKiosco->desconectar();
 	}
 
-
 	function agregarEgreso($valor, $idcarrito, $idproducto, $cantidad, $fecha)
 	{
-		$query = "INSERT INTO egreso (valor_egreso, idcarrito, idproducto, cantidad, datetime)
-						VALUES (".$valor.", ".$idcarrito.", ".$idproducto." , ".$cantidad." , '".$fecha."') ;"; /* INSERT INTO egreso (valor_egreso, idcarrito, idproducto, cantidad, datetime)
-						VALUES (".$valor.", ".$idcarrito.", ".$idproducto." , ".$cantidad." , ".$fecha.") ; */
-
+		$query = "INSERT INTO egreso (idcarrito, idproducto, cantidad, datetime)
+						VALUES (".$idcarrito.", ".$idproducto." , ".$cantidad." , '".$fecha."') ;"; 
 		try
 			{
 				$this->dbKiosco->conectar();

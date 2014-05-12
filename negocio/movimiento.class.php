@@ -9,7 +9,8 @@ require_once nspcFarmacia.'producto.class.php';
 class Movimiento{
 	var $items;
 
-	function Movimiento(){
+	function Movimiento()
+	{
 		$this->items = array();
 	}
 	/**
@@ -85,42 +86,8 @@ class Movimiento{
 	 * Retorna la suma de los productos en el carrito
 	 */
 	
-	function listaJson()
-	{
-		$response->page = 1; 
-		$response->total = 1; 
-		$response->records = count($this->items); 
-		
-		/* @var $item ItemProducto */
-		foreach ($this->items as $key => $item) {
-			
-			$response->rows[$key]['id'] = $key;  
-			$row = array();
-			$producto = $item->getProducto();
-			
-			$row[] = Utils::phpStringToHTML($producto->getNombre());
- 			$row[] = Utils::phpIntToHTML($item->getCantidad());
-			$row[] = '';
-			$response->rows[$key]['cell'] = $row;
-			
-		}
-		
-		$response->userdata['producto']= 'Movimiento';
-		$response->userdata['cantidad'] = '';
-		$response->userdata['myac'] = '';
-		
-		return json_encode($response);
-	}
 	
-	/**
-	 * 
-	 * Vacia toda la información dentro del carrito
-	 */
-	function vaciar()
-	{
-		unset($this->items);
-		$this->items = array();
-	} 
+
 	
 }
 
