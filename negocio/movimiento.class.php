@@ -86,6 +86,32 @@ class Movimiento{
 	 * Retorna la suma de los productos en el carrito
 	 */
 	
+	function listaJson()
+	{
+		$response->page = 1; 
+		$response->total = 1; 
+		$response->records = count($this->items); 
+		
+		/* @var $item ItemProducto */
+		foreach ($this->items as $key => $item) {
+			
+			$response->rows[$key]['id'] = $key;  
+			$row = array();
+			$producto = $item->getProducto();
+			
+			$row[] = Utils::phpStringToHTML($producto->getNombre());
+ 			$row[] = Utils::phpIntToHTML($item->getCantidad());
+			$row[] = '';
+			$response->rows[$key]['cell'] = $row;
+			
+		}
+		
+		$response->userdata['nombre']= 'Nombre';
+		$response->userdata['precioVenta'] = 'Precio Venta';
+		$response->userdata['myac'] = '';
+		
+		return json_encode($response);
+	}
 	
 
 	

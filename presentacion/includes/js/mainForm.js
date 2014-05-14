@@ -40,15 +40,32 @@ $(document).ready(function() {
         title:"Agregar Producto",
         buttons: {
           "Si": function() {
+            codigoprodu=$('#codigoprodu').val();
+            rubroprodu=$('#rubroprodu').val();
+            stockminprodu=$('#stockminprodu').val();
+            preciocompraprodu=$('#preciocompraprodu').val();
+            precioventaprodu=$('#precioventaprodu').val();
+            descripcionprodu=$('#descripcionprodu').val();
             $.ajax({
-              //dataType: "json",
-              //url: "aplicarMedicacion/includes/ajaxFunctions/jsonCancelarEgresoDeProductos.php",
-              success: function(data){
-                if(data.result){
+              data: "codigo="+codigoprodu+"&rubro="+rubroprodu+"&stockminimo="+stockminprodu+"&preciocompra="+preciocompraprodu+"&precioventa="+precioventaprodu+"&descripcion="+descripcionprodu,
+              type: "POST",
+              dataType: "json",
+              url: "../presentacion/includes/ajaxFunctions/AgregarProductos.php",
+              success: function(data)
+              {
+                if(data.result)
+                {
+                  alert("Produto Agregado.");
+                  $('#codigoprodu').val('');
+                  $('#rubroprodu').val('');
+                  $('#stockminprodu').val('');
+                  $('#preciocompraprodu').val('');
+                  $('#precioventaprodu').val('');
+                  $('#descripcionprodu').val('');
                 }
                 else
                 {
-                  alert(data.message);
+                  alert("Producto no agregado");
                 }
               }
             });
@@ -239,5 +256,27 @@ $(document).ready(function() {
         }
       });       
     });
+
+    $("#jqprodu").jqGrid(
+    { 
+
+      url:'includes/ajaxFunctions/MostrarProductos.php', 
+      mtype: "POST",
+      datatype: "json", 
+      colNames:['nombre','precioVenta',''], 
+      colModel:[ 
+        {name:'nombre', index:'nombre',width:200,align:"left",fixed:true},
+        {name:'precioVenta', index:'precioVenta',width:100,align:"center",fixed:true},
+        {name:'myac', width:50, fixed:true, sortable:false, resize:false, formatter:'actions',search:false, formatoptions:{keys:true,"delbutton":true,"editbutton":false}}
+        ], 
+       rowNum:true, 
+       viewrecords: true, 
+       footerrow:true,
+       altRows : true,
+       editurl :'includes/ajaxFunctions/QuitarProductos.php',
+       width: 380
+    }); 
+
+    
 
 });

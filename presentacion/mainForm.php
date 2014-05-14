@@ -20,6 +20,8 @@
 		<link type="text/css" rel="Stylesheet" href="includes/plug-in/css2/jquery-ui-1.8.16.custom.css" />
 		<script src="includes/plug-in/js/jquery-last.min.js" type="text/javascript"></script>
 		<script src="includes/plug-in/js/jquery-ui-last.custom.min.js" type="text/javascript"></script>
+		<script src="includes/js/jqGrid/js/i18n/grid.locale-en.js" type="text/javascript"></script>
+		<script src="includes/js/jqGrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
 
 		<script src="includes/js/mainForm.js" type="text/javascript"></script>
 
@@ -106,23 +108,20 @@
 								<!-- Dialogos de menejo de productos -->
 
 								<div id="dialogVerProducto" style="visibility: hidden;">
-									<?php
-									
-									$obj = new kioscoDatabaseLinker();
-									$ret = $obj->getProductos();
 
-									echo("<ul>");
-									for($i=0; $i<count($ret); $i++)
-									{
-										echo("<li>".$ret[$i]->getNombre()."</li>");
-									}
-									echo("</ul>");
+									<table id="jqprodu"></table>
 
-									?> 
 								</div>
 
 								<div id="dialogAgregarProducto" style="visibility: hidden;">
-									Dialogo Agregar Productos
+									<form id="agregarprodu"> 
+									Codigo de producto: <input type="text" id="codigoprodu"> <br>
+									Rubro de producto: <input type="text" id="rubroprodu"> <br>
+									Stock minimo: <input type="text" id="stockminprodu"> <br>
+									Precio compra: <input type="text" id="preciocompraprodu"> <br>
+									Precio venta: <input type="text" id="precioventaprodu"> <br>
+									Descripcion de producto: <input type="text" id="descripcionprodu"> <br>
+									</form>
 								</div>
 
 								<!-- dialogos de compra -->

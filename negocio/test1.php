@@ -11,21 +11,24 @@ include_once 'producto.class.php';
 $obj = new kioscoDatabaseLinker();
 $mov = new Movimiento();
 
-$prod = new Producto();
-$prod2 = new Producto();
+//$prod = new Producto();
+//$prod2 = new Producto();
 
 
-$prod->setNombre("ProductoUno");
-$prod2->setNombre("ProductoDos");
+//$prod->setNombre("Leche matrix");
+//$prod->setId(0);
+//$prod->setPrecioVenta(5);
+//$prod2->setNombre("Pepitos");
+//$prod2->setId(16);
 
-$mov->agregar($prod,3);
-$mov->agregar($prod2,15237);
+//$mov->agregar($prod,11111);
+//$mov->agregar($prod2,2222);
 
-var_dump($mov);
+//var_dump($mov);
 
-$obj->confirmarCarrito(2, $mov);
+//$obj->confirmarCarrito(7, $mov);
 
-
+$obj->getTurnos();
 
 //$id = $obj->inicializarCaja('800.90', 3);
 
