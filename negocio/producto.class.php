@@ -1,8 +1,6 @@
 <?php
-
 class Producto
 {
-	
 	var $id;
 	var $codigo;
 	var $nombre;
@@ -10,7 +8,6 @@ class Producto
 	var $precioVenta;
 	var $precioCompra;
 	var $stockMinimo;
-
 
 	function Producto() 
 	{
@@ -90,5 +87,4 @@ class Producto
 	}
 
 }
-
 ?>

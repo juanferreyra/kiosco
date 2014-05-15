@@ -28,7 +28,7 @@ $mov = new Movimiento();
 
 //$obj->confirmarCarrito(7, $mov);
 
-//$obj->getTurnos();
+$obj->getTurnos();
 
 //$id = $obj->inicializarCaja('800.90', 3);
 
@@ -41,9 +41,5 @@ $mov = new Movimiento();
 //var_dump($obj->hayCajaSinCerrar());
 
 //var_dump($id['idturno']);
-
-var_dump($obj->cambiarContrasenaUsuario("tuto","tutonuevo","tutonuevonuevo"));
-
-
 
 ?>

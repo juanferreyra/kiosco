@@ -1,10 +1,8 @@
 <?php
-class Caja {
+class Caja 
+{
 	var $Turno;
-	
-
-
-
+	var $user;
 }
 
 

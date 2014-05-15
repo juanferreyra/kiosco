@@ -1,8 +1,6 @@
 <?php
-
 class Proveedor 
 {
-
 	var $id;
 	var $descripcion;
 	var $direccion;
@@ -54,5 +52,5 @@ class Proveedor
 	{
 		return $this->telefono;
 	}
-
 }
+?>

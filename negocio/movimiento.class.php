@@ -1,7 +1,8 @@
 <?php
-include_once 'kioscoDatabaseLinker.php';
+include_once 'kioscoDatabaseLinker.class.php';
 
-class Movimiento{
+class Movimiento
+{
 	var $items;
 
 	function Movimiento()
@@ -108,8 +109,5 @@ class Movimiento{
 		return json_encode($response);
 	}
 	
-
-	
 }
-
 ?>
