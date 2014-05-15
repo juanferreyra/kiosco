@@ -1,10 +1,5 @@
 <?php
-include_once '/home/web/namespacesAdress.php';
-include_once nspcConexion . 'conectionData.php';
-include_once nspcCommons . 'utils.php';
-require_once nspcTools . 'FirePHPCore/FirePHP.class.php';
-require_once nspcFarmacia.'itemMovimiento.class.php';
-require_once nspcFarmacia.'producto.class.php';
+include_once 'kioscoDatabaseLinker.php';
 
 class Movimiento{
 	var $items;

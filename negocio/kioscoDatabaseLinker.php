@@ -748,5 +748,104 @@ class KioscoDatabaseLinker
 
 	}
 
+
+	function codificarMd5($string)
+	{
+		$md5 = md5($string);
+
+		return $md5;
+	}
+
+
+	function agregarUsuario($usuario, $turno ,$contrasena )
+	{
+		$md5 = $this->codificarMd5($contrasena);
+		
+		$query="INSERT INTO usuario (detalle, idturno, contrasena, habilitado) VALUES ('".$usuario."', ".$turno.", '".$md5."', 1);";
+
+
+		try
+			{
+				$this->dbKiosco->conectar();
+				$this->dbKiosco->ejecutarAccion($query);
+			}
+		catch (Exception $e)
+			{
+				throw new Exception("Error al conectar con la base de datos", 17052013);
+			}
+
+		$this->dbKiosco->desconectar();
+
+	}
+
+	function darBajaUsuario($usuario, $turno)
+	{
+		$query = "UPDATE usuario SET habilitado = 0 WHERE detalle=".$usuario." and turno = ".$turno.";";
+
+
+		try
+			{
+				$this->dbKiosco->conectar();
+				$this->dbKiosco->ejecutarAccion($query);
+			}
+		catch (Exception $e)
+			{
+				throw new Exception("Error al conectar con la base de datos", 17052013);
+			}
+
+		$this->dbKiosco->desconectar();
+
+	}
+
+	function cambiarContrasenaUsuario($usuario, $contrasenaVieja, $contrasenaNueva)
+	{
+		$query="SELECT contrasena FROM usuario WHERE detalle = '".$usuario."';";
+		$arr = array ();
+	
+		try
+			{
+				$this->dbKiosco->conectar();
+				$this->dbKiosco->ejecutarQuery($query);
+			}
+		catch (Exception $e)
+			{
+				throw new Exception("Error al conectar con la base de datos", 17052013);
+			}
+
+		$result = $this->dbKiosco->fetchRow($query);
+		$arrdos = array('contrasena' => $result['contrasena']);
+
+		$arr[0] = $arrdos['contrasena'];
+
+		$contrasenaViejamd5 = md5($contrasenaVieja);
+
+
+		if($contrasenaViejamd5 != $arr[0])
+		{
+			return false; //la contraseña no coincide
+		}
+		else //si coincide
+		{
+			$contrasenaNuevamd5 = md5($contrasenaNueva);
+			$query = "UPDATE usuario SET contrasena = '".$contrasenaNuevamd5."' WHERE detalle='".$usuario."';";
+
+		try
+			{
+				$this->dbKiosco->conectar();
+				$this->dbKiosco->ejecutarAccion($query);
+			}
+		catch (Exception $e)
+			{
+				throw new Exception("Error al conectar con la base de datos", 17052013);
+			}
+
+		
+		}
+
+		return true;
+
+
+	}
+
 }
 ?>
