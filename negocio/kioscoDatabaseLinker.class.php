@@ -758,10 +758,11 @@ class KioscoDatabaseLinker
 
 		$this->dbKiosco->desconectar();
 		return $arr;
-
 	}
+	
+//---------------------------------------------------------------------------------------------
 
-
+	/*Funciones orientadas al manejo de usuarios*/
 	function agregarUsuario($detalle,$idturno,$contrasena, $idperfil)
 	{
 		$contrasenamd5 = md5($contrasena);
@@ -789,6 +790,23 @@ class KioscoDatabaseLinker
 
 			return true;			
 		}
+	}
+
+	function eliminarUsuario($usuario)
+	{
+		$query="UPDATE usuario set habilitado = 0 WHERE usuario=".$usuario." and habilitado = 1;";
+
+		try
+			{
+				$this->dbKiosco->conectar();
+				$this->dbKiosco->ejecutarAccion($query);
+			}
+		catch (Exception $e)
+			{
+				throw new Exception("Error al conectar con la base de datos", 17052013);
+				return false;
+			}
+		return true;
 
 	}
 
@@ -821,8 +839,6 @@ class KioscoDatabaseLinker
 		{
 			return false; //usuario no existe
 		}
-
-
 	}
 
 	function accesoKiosco($usuario, $contrasenaIngresada)
@@ -863,26 +879,6 @@ class KioscoDatabaseLinker
 			{
 				return false; //usuario existe y contraseña no coincide
 			}
-
-
-		}
-
-		function eliminarUsuario($usuario)
-		{
-			$query="UPDATE usuario set habilitado = 0 WHERE usuario=".$usuario." and habilitado = 1;";
-
-			try
-				{
-					$this->dbKiosco->conectar();
-					$this->dbKiosco->ejecutarAccion($query);
-				}
-			catch (Exception $e)
-				{
-					throw new Exception("Error al conectar con la base de datos", 17052013);
-					return false;
-				}
-			return true;
-
 		}
 	}
 
