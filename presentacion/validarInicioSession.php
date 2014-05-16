@@ -10,7 +10,7 @@ $nomUsuario=$_POST['usuario'];
 
 $contraUsuario=$_POST['contra'];
 
-$acceso=true;//$DBKiosco->accesoKiosco($nomUsuario,$contraUsuario);
+$acceso=$DBKiosco->accesoKiosco($nomUsuario,$contraUsuario);
 
 $data->result = true;
 

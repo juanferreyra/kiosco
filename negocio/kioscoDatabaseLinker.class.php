@@ -25,14 +25,14 @@ class KioscoDatabaseLinker
 						precio_venta, 
 						datetime, 
 						descripcion, 
-						rubro) 
+						idrubro) 
 				  VALUES ( ".$codigo." , 
 				  		".$stock_minimo." , 
 				  		".$precio_compra." , 
 				  		".$precio_venta." , 
 				  		now(), 
 				  		'".$descripcion."' , 
-				  		'".$idrubro."'
+				  		".$idrubro."
 				  		);";
 		try
 			{
@@ -53,15 +53,16 @@ class KioscoDatabaseLinker
 	function getProductos()
 	{
 		$query="SELECT 
-					idproducto,
-				    codigo_producto,
-				    descripcion,
-				    rubro,
-				    precio_venta,
-				    precio_compra,
-				    stock_minimo
+					prod.idproducto,
+				    prod.codigo_producto,
+				    prod.descripcion as producto,
+				    rub.descripcion as rubro,
+				    prod.idrubro,
+				    prod.precio_venta,
+				    prod.precio_compra,
+				    prod.stock_minimo
 				FROM
-				    producto
+				    producto prod LEFT JOIN rubro rub on (prod.idrubro = rub.idrubro)
 				WHERE
 				    habilitado = '1';";
 
@@ -83,8 +84,9 @@ class KioscoDatabaseLinker
 			$producto = new Producto();
 			$producto->setId($result['idproducto']);
 			$producto->setCodigo($result['codigo_producto']);
-			$producto->setNombre($result['descripcion']);
+			$producto->setNombre($result['producto']);
 			$producto->setRubro($result['rubro']);
+			$producto->setIdRubro($result['idrubro']);
 			$producto->setPrecioVenta($result['precio_venta']);
 			$producto->setPrecioCompra($result['precio_compra']);
 			$producto->setStockMinimo($result['stock_minimo']);
@@ -109,17 +111,28 @@ class KioscoDatabaseLinker
 	
 		for ($i=0; $i < count($productosarray) ; $i++) 
 		{ 
-			$response->rows[$i]['id'] = $i; 
-			$row = array();
 			$producto = $productosarray[$i];
+			//id de fila
+			$response->rows[$i]['id'] = $producto->getId(); 
+			//datos de la fila en otro array
+			$row = array();
+			$row[] =$producto->getCodigo();
 			$row[] =$producto->getNombre();
  			$row[] =$producto->getPrecioVenta();
+ 			$row[] =$producto->getPrecioCompra();
+ 			$row[] =$producto->getRubro();
+ 			$row[] =$producto->getStockMinimo();
 			$row[] = '';
+			//agrego datos a la fila con clave cell
 			$response->rows[$i]['cell'] = $row;
 		}
 
+		$response->userdata['codigo']= 'Codigo';
 		$response->userdata['nombre']= 'Movimiento';
-		$response->userdata['precioVenta'] = '';
+		$response->userdata['precioVenta'] = 'precioVenta';
+		$response->userdata['precioCompra']= 'precioCompra';
+		$response->userdata['rubro']= 'rubro';
+		$response->userdata['stock_minimo']= 'stock_minimo';
 		$response->userdata['myac'] = '';
 
 		return json_encode($response);
@@ -746,6 +759,131 @@ class KioscoDatabaseLinker
 		$this->dbKiosco->desconectar();
 		return $arr;
 
+	}
+
+
+	function agregarUsuario($detalle,$idturno,$contrasena, $idperfil)
+	{
+		$contrasenamd5 = md5($contrasena);
+
+		if ($this->usuarioExiste($detalle)) 
+		{
+			throw new Exception("el usuario ya existe papa!!", 17052013);
+			return false;
+		}
+		else
+		{
+		
+			$query="INSERT INTO usuario (detalle, idturno,contrasena, idperfil ,habilitado) VALUES ('".$detalle."',".$idturno.",'".$contrasenamd5."',".$idperfil." , 1);";
+
+			try
+				{
+					$this->dbKiosco->conectar();
+					$this->dbKiosco->ejecutarAccion($query);
+				}
+			catch (Exception $e)
+				{
+					throw new Exception("Error al conectar con la base de datos", 17052013);
+					return false;
+				}
+
+			return true;			
+		}
+
+	}
+
+	function usuarioExiste($usuario)
+	{
+		$query="SELECT detalle FROM usuario WHERE detalle = '".$usuario."' and habilitado = 1;";
+
+		$arr = array ();
+	
+		try
+			{
+				$this->dbKiosco->conectar();
+				$this->dbKiosco->ejecutarQuery($query);
+			}
+		catch (Exception $e)
+			{
+				throw new Exception("Error al conectar con la base de datos", 17052013);
+			}
+
+		$result = $this->dbKiosco->fetchRow($query);
+		$arrdos = array('detalle' => $result['detalle']);
+
+		$arr[0] = $arrdos['detalle'];
+
+		if($arr[0]==$usuario)
+		{
+			return true; //usuario existe
+		}
+		else
+		{
+			return false; //usuario no existe
+		}
+
+
+	}
+
+	function accesoKiosco($usuario, $contrasenaIngresada)
+	{
+		
+		if(!$this->usuarioExiste($usuario))
+		{
+			return false; //usuario no existe
+		}
+		else
+		{
+
+			$query="SELECT contrasena FROM usuario WHERE detalle = '".$usuario."' AND habilitado=1;";
+			$arr = array ();
+		
+			try
+				{
+					$this->dbKiosco->conectar();
+					$this->dbKiosco->ejecutarQuery($query);
+				}
+			catch (Exception $e)
+				{
+					throw new Exception("Error al conectar con la base de datos", 17052013);
+				}
+
+			$result = $this->dbKiosco->fetchRow($query);
+			$arrdos = array('contrasena' => $result['contrasena']);
+
+			$arr[0] = $arrdos['contrasena'];
+
+			$contrasenaIngresadamd5 = md5($contrasenaIngresada);
+
+			if($contrasenaIngresadamd5 == $arr[0])
+			{
+				return true; //usuario existe y contraseña coincide
+			}
+			else
+			{
+				return false; //usuario existe y contraseña no coincide
+			}
+
+
+		}
+
+		function eliminarUsuario($usuario)
+		{
+			$query="UPDATE usuario set habilitado = 0 WHERE usuario=".$usuario." and habilitado = 1;";
+
+			try
+				{
+					$this->dbKiosco->conectar();
+					$this->dbKiosco->ejecutarAccion($query);
+				}
+			catch (Exception $e)
+				{
+					throw new Exception("Error al conectar con la base de datos", 17052013);
+					return false;
+				}
+			return true;
+
+		}
 	}
 
 }

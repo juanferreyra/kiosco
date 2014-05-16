@@ -1,7 +1,7 @@
 <?php
 
 //phpinfo();
-include_once 'kioscoDatabaseLinker.php';
+include_once 'kioscoDatabaseLinker.class.php';
 include_once 'movimiento.class.php';
 include_once 'producto.class.php';
 
@@ -28,7 +28,7 @@ $mov = new Movimiento();
 
 //$obj->confirmarCarrito(7, $mov);
 
-$obj->getTurnos();
+//$obj->getTurnos();
 
 //$id = $obj->inicializarCaja('800.90', 3);
 
@@ -41,5 +41,6 @@ $obj->getTurnos();
 //var_dump($obj->hayCajaSinCerrar());
 
 //var_dump($id['idturno']);
+//$obj->agregarUsuario("juan2",2,"jf2");
 
 ?>

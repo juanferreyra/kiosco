@@ -5,6 +5,7 @@ class Producto
 	var $codigo;
 	var $nombre;
 	var $rubro;
+	var $idrubro;
 	var $precioVenta;
 	var $precioCompra;
 	var $stockMinimo;
@@ -29,10 +30,15 @@ class Producto
 	{
 		$this->nombre = $value;
 	}
-	
+
 	function setRubro($value)
 	{
 		$this->rubro = $value;
+	}
+	
+	function setIdRubro($value)
+	{
+		$this->idrubro = $value;
 	}
 
 	function setPrecioVenta($value)
@@ -69,6 +75,11 @@ class Producto
 	function getRubro()
 	{
 		return $this->rubro;
+	}
+
+	function getIdRubro()
+	{
+		return $this->idrubro;
 	}
 
 	function getPrecioVenta()

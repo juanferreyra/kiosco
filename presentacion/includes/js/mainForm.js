@@ -5,25 +5,11 @@ $(document).ready(function() {
       $( "#dialogVerProducto" ).css('visibility',"visible");
       $( "#dialogVerProducto" ).dialog({
         // modal: true,
-        width:500,
-		high:1000,
+        width:'70%',
+		    height:500,
         title:"Ver Articulos",
         buttons: {
-          "Si": function() {
-            $.ajax({
-              //dataType: "json",
-              //url: "aplicarMedicacion/includes/ajaxFunctions/jsonCancelarEgresoDeProductos.php",
-              success: function(data){
-                if(data.result){
-                }
-                else
-                {
-                  alert(data.message);
-                }
-              }
-            });
-          },
-          "No": function() {
+          "Cerrar": function() {
             $(this).dialog("close");
           }
         }
@@ -62,6 +48,7 @@ $(document).ready(function() {
                   $('#preciocompraprodu').val('');
                   $('#precioventaprodu').val('');
                   $('#descripcionprodu').val('');
+                 $("#jqprodu").trigger("reloadGrid"); 
                 }
                 else
                 {
@@ -263,18 +250,22 @@ $(document).ready(function() {
       url:'includes/ajaxFunctions/MostrarProductos.php', 
       mtype: "POST",
       datatype: "json", 
-      colNames:['nombre','precioVenta',''], 
+      colNames:['Codigo', 'Nombre','Precio Venta', 'Precio Compra' ,'Rubro','Stock Minimo',''], 
       colModel:[ 
-        {name:'nombre', index:'nombre',width:200,align:"left",fixed:true},
-        {name:'precioVenta', index:'precioVenta',width:100,align:"center",fixed:true},
+        {name:'codigo', index:'codigo',width:'120%',align:"left",fixed:true},
+        {name:'nombre', index:'nombre',width:'200%',align:"left",fixed:true},
+        {name:'precioVenta', index:'precioVenta',width:'100%',align:"center",fixed:true},
+        {name:'precioCompra', index:'precioCompra',width:'100%',align:"center",fixed:true},
+        {name:'rubro', index:'rubro',width:'100%',align:"left",fixed:true},
+        {name:'stock_minimo', index:'stock_minimo',width:'100%',align:"center",fixed:true},
         {name:'myac', width:50, fixed:true, sortable:false, resize:false, formatter:'actions',search:false, formatoptions:{keys:true,"delbutton":true,"editbutton":false}}
         ], 
        rowNum:true, 
-       viewrecords: true, 
-       footerrow:true,
+       viewrecords: true,
        altRows : true,
        editurl :'includes/ajaxFunctions/QuitarProductos.php',
-       width: 380
+       width: '100%',
+       height: '100%'
     }); 
 
     

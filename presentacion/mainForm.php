@@ -13,6 +13,8 @@
 		<link rel="stylesheet" type="text/css" href="includes/css/demo.css" />
 		<link rel="stylesheet" type="text/css" href="includes/css/icons.css" />
 		<link rel="stylesheet" type="text/css" href="includes/css/component.css" />
+		<link type="text/css" rel="Stylesheet" href="includes/plug-in/css2/jquery-ui-1.8.16.custom.css" />
+  		<link type="text/css" rel="Stylesheet" href="includes/plug-in/jqGrid/css/ui.jqgrid.css" />
 
 		<script src="includes/js/modernizr.custom.js"></script>
 		
@@ -20,13 +22,14 @@
 		<link type="text/css" rel="Stylesheet" href="includes/plug-in/css2/jquery-ui-1.8.16.custom.css" />
 		<script src="includes/plug-in/js/jquery-last.min.js" type="text/javascript"></script>
 		<script src="includes/plug-in/js/jquery-ui-last.custom.min.js" type="text/javascript"></script>
-		<script src="includes/js/jqGrid/js/i18n/grid.locale-en.js" type="text/javascript"></script>
-		<script src="includes/js/jqGrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
+		<script src="includes/plug-in/jqGrid/js/i18n/grid.locale-en.js" type="text/javascript"></script>
+		<script src="includes/plug-in/jqGrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
+
 
 		<script src="includes/js/mainForm.js" type="text/javascript"></script>
 
 		<?php
-		include_once '../negocio/kioscoDatabaseLinker.php';
+		include_once '../negocio/kioscoDatabaseLinker.class.php';
 		?>
 
 	</head>
@@ -107,9 +110,9 @@
 
 								<!-- Dialogos de menejo de productos -->
 
-								<div id="dialogVerProducto" style="visibility: hidden;">
+								<div id="dialogVerProducto" style="visibility: hidden; ">
 
-									<table id="jqprodu"></table>
+									<div align="center"; ><table id="jqprodu" ></table></div>
 
 								</div>
 
