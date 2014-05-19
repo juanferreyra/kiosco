@@ -43,4 +43,6 @@ $mov = new Movimiento();
 //var_dump($id['idturno']);
 //$obj->agregarUsuario("juan2",2,"jf2");
 
+$obj->ingresarRubro("rubroprueba");
+
 ?>

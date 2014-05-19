@@ -71,6 +71,50 @@ $(document).ready(function() {
       });       
     });
 
+ $("#btnAgregarRubro").click(function(){
+      $("#dialogAgregarRubro").load("../presentacion/includes/forms/form_agregarRubro.php");
+      $( "#dialog:ui-dialog" ).dialog( "destroy" );
+      $( "#dialogAgregarRubro" ).css('visibility',"visible");
+      $( "#dialogAgregarRubro" ).dialog({
+        width:500,
+        high:1000,
+        title:"Agregar Rubro",
+        buttons: {
+          "Guardar": function() {
+            descripcionrubro=$('#descripcionrubro').val();
+            $.ajax({
+              data: "descripcion="+descripcionrubro,
+              type: "POST",
+              dataType: "json",
+              url: "../presentacion/includes/ajaxFunctions/AgregarRubros.php",
+              success: function(data)
+              {
+                if(data.result)
+                {
+                  alert("Rubro Agregado.");
+                  $('#descripcionrubro').val('');
+                }
+                else
+                {
+                  if($('#habilitado').val()=='false')
+                  {
+                    alert('presione cancelar para salir');
+                  }
+                  else
+                  {
+                    alert("Rubro no agregado");
+                  }
+                }
+              }
+            });
+          },
+          "Cerrar": function() {
+            $(this).dialog("close");
+          }
+        }
+      });       
+    });
+
     $("#btnIngresarCompra").click(function(){
       $( "#dialog:ui-dialog" ).dialog( "destroy" );
       $( "#dialogIngresarCompra" ).css('visibility',"visible");

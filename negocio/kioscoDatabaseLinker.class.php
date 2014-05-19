@@ -262,7 +262,7 @@ class KioscoDatabaseLinker
 
 	function ingresarRubro($value)
 	{
-		$query="INSERT INTO rubro set (descripcion, habilitado) VALUES ('".$value."', 1);";
+		$query="INSERT INTO rubro (descripcion, habilitado) VALUES ('".$value."', 1);";
 
 		try
 			{

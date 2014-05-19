@@ -44,18 +44,18 @@
 						<h2 class="icon icon-search">Menu de Kiosco</h2>
 						<ul>
 							<li class="icon icon-arrow-left">
-								<a class="icon icon-like" href="#">Articulos</a>
+								<a class="icon icon-like" href="#">Administracion</a>
 								<div class="mp-level">
-									<h2 class="icon icon-like">Articulos</h2>
+									<h2 class="icon icon-like">Administrar kiosco</h2>
 									<ul>
 										<!-- botones de manejo de articulos-->
 
-										<li><a class="icon icon-food" href="#" id="btnVerProducto">Ver Articulos</a></li>
+										<li><a class="icon icon-food" href="#" id="btnAgregarRubro">Agregar Rubro</a></li>
 										<li><a class="icon icon-tv" href="#" id="btnAgregarProducto">Agregar Articulos</a></li>
+										<li><a class="icon icon-food" href="#" id="btnVerProducto">Ver Articulos</a></li>
 									</ul>
 								</div>
 							</li>
-
 							<li class="icon icon-arrow-left">
 								<a class="icon icon-shop" href="#">Compras</a>
 								<div class="mp-level">
@@ -118,6 +118,11 @@
 
 								<div id="dialogAgregarProducto" style="visibility: hidden;">
 									
+								</div>
+
+								<div id="dialogAgregarRubro" style="visibility: hidden;">
+									
+
 								</div>
 
 								<!-- dialogos de compra -->
