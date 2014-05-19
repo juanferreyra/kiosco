@@ -49,6 +49,7 @@ class KioscoDatabaseLinker
 
 		return true;
 	}
+
 	
 	function getProductos()
 	{
@@ -64,7 +65,7 @@ class KioscoDatabaseLinker
 				FROM
 				    producto prod LEFT JOIN rubro rub on (prod.idrubro = rub.idrubro)
 				WHERE
-				    habilitado = '1';";
+				    prod.habilitado = '1';";
 
 		try 
 			{
@@ -242,6 +243,81 @@ class KioscoDatabaseLinker
 							habilitado = '0' 
 						WHERE 
 							idproveedor = ".$idprov.";";
+
+		try
+			{
+				$this->dbKiosco->conectar();
+				$this->dbKiosco->ejecutarAccion($query);
+			}
+			catch (Exception $e)
+			{
+				throw new Exception("Error al conectar con la base de datos", 17052013);
+				return false;
+			}
+
+		$this->dbKiosco->desconectar();
+
+		return true;
+	}
+
+	function ingresarRubro($value)
+	{
+		$query="INSERT INTO rubro set (descripcion, habilitado) VALUES ('".$value."', 1);";
+
+		try
+			{
+				$this->dbKiosco->conectar();
+				$this->dbKiosco->ejecutarAccion($query);
+			}
+			catch (Exception $e)
+			{
+				throw new Exception("Error al conectar con la base de datos", 17052013);
+				return false;
+			}
+
+		$this->dbKiosco->desconectar();
+
+		return true;
+	}
+
+	function getRubros()
+	{
+
+		$query="SELECT * FROM rubro WHERE habilitado=1;";
+
+		try
+			{
+				$this->dbKiosco->conectar();
+				$this->dbKiosco->ejecutarQuery($query);
+			}
+		catch (Exception $e)
+			{
+				throw new Exception("Error al conectar con la base de datos", 17052013);
+				return false;
+			}
+
+		$ret = array();
+
+		for ($i = 0; $i < $this->dbKiosco->querySize; $i++)
+		{
+			$result = $this->dbKiosco->fetchRow();
+			$arr = array('idrubro' => $result['idrubro'], 'descripcion' => $result['descripcion']);
+			$ret[] = $arr;
+		}
+
+		$this->dbKiosco->desconectar();
+		
+		return $ret;
+	}
+
+	function eliminarRubro($idrubro)
+	{
+		$query = "UPDATE 
+							rubro 
+						SET 
+							habilitado = '0' 
+						WHERE 
+							idrubro = ".$idrubro.";";
 
 		try
 			{
@@ -694,10 +770,9 @@ class KioscoDatabaseLinker
 				throw new Exception("Error al conectar con la base de datos", 17052013);
 			}
 
-			$result = $this->dbKiosco->fetchRow($query);
-			$arrdos = array('idturno' => $result['idturno']);
-
-		$idturnoultimo = $arrdos['idturno'];
+		$result = $this->dbKiosco->fetchRow($query);
+			
+		$idturnoultimo = $result['idturno'];
 
 		$this->dbKiosco->desconectar();
 		
@@ -759,8 +834,10 @@ class KioscoDatabaseLinker
 		$this->dbKiosco->desconectar();
 		return $arr;
 	}
+
+
 	
-//---------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------
 
 	/*Funciones orientadas al manejo de usuarios*/
 	function agregarUsuario($detalle,$idturno,$contrasena, $idperfil)
@@ -827,11 +904,8 @@ class KioscoDatabaseLinker
 			}
 
 		$result = $this->dbKiosco->fetchRow($query);
-		$arrdos = array('detalle' => $result['detalle']);
-
-		$arr[0] = $arrdos['detalle'];
-
-		if($arr[0]==$usuario)
+		
+		if($result['detalle']==$usuario)
 		{
 			return true; //usuario existe
 		}
@@ -865,13 +939,9 @@ class KioscoDatabaseLinker
 				}
 
 			$result = $this->dbKiosco->fetchRow($query);
-			$arrdos = array('contrasena' => $result['contrasena']);
-
-			$arr[0] = $arrdos['contrasena'];
-
 			$contrasenaIngresadamd5 = md5($contrasenaIngresada);
 
-			if($contrasenaIngresadamd5 == $arr[0])
+			if($contrasenaIngresadamd5 == $result['contrasena'])
 			{
 				return true; //usuario existe y contraseña coincide
 			}

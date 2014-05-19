@@ -117,14 +117,7 @@
 								</div>
 
 								<div id="dialogAgregarProducto" style="visibility: hidden;">
-									<form id="agregarprodu"> 
-									Codigo de producto: <input type="text" id="codigoprodu"> <br>
-									Rubro de producto: <input type="text" id="rubroprodu"> <br>
-									Stock minimo: <input type="text" id="stockminprodu"> <br>
-									Precio compra: <input type="text" id="preciocompraprodu"> <br>
-									Precio venta: <input type="text" id="precioventaprodu"> <br>
-									Descripcion de producto: <input type="text" id="descripcionprodu"> <br>
-									</form>
+									
 								</div>
 
 								<!-- dialogos de compra -->
