@@ -17,15 +17,15 @@ $(document).ready(function() {
     });
 
   $("#btnAgregarProducto").click(function(){
+      $("#dialogAgregarProducto").load("../presentacion/includes/forms/form_agregarProducto.php");
       $( "#dialog:ui-dialog" ).dialog( "destroy" );
       $( "#dialogAgregarProducto" ).css('visibility',"visible");
       $( "#dialogAgregarProducto" ).dialog({
-        // modal: true,
         width:500,
-    high:1000,
+        high:1000,
         title:"Agregar Producto",
         buttons: {
-          "Si": function() {
+          "Guardar": function() {
             codigoprodu=$('#codigoprodu').val();
             rubroprodu=$('#rubroprodu').val();
             stockminprodu=$('#stockminprodu').val();
@@ -52,12 +52,19 @@ $(document).ready(function() {
                 }
                 else
                 {
-                  alert("Producto no agregado");
+                  if($('#habilitado').val()=='false')
+                  {
+                    alert('presione cancelar para salir');
+                  }
+                  else
+                  {
+                    alert("Producto no agregado");
+                  }
                 }
               }
             });
           },
-          "No": function() {
+          "Cerrar": function() {
             $(this).dialog("close");
           }
         }
