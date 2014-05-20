@@ -82,6 +82,7 @@ $(document).ready(function() {
                 {
                   alert("Rubro Agregado.");
                   $('#descripcionrubro').val('');
+                  $("#jqrubro").trigger("reloadGrid"); 
                 }
                 else
                 {
