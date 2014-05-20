@@ -1,5 +1,5 @@
 <?php
 include_once 'namespacesAdress.php';
 $direccion = $_SERVER['SERVER_NAME'];
-header ("Location: http://".$direccion.presentacion."login.php");
+header ("Location: presentacion/login.php");
 ?>

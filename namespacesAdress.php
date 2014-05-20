@@ -2,7 +2,7 @@
 
 //nombre y directorio total del proyecto
 $name = 'kiosco';
-$dirRoot = '/kiosco/';
+$dirRoot = __DIR__.'/';
 
 //directorios locales del proyecto
 define($name, $dirRoot);

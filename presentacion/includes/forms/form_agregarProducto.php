@@ -1,6 +1,6 @@
 <?php
-include_once '/var/www/kiosco/namespacesAdress.php';
-include_once '/var/www/kiosco/negocio/kioscoDatabaseLinker.class.php';
+include_once '../../../namespacesAdress.php';
+include_once negocio.'kioscoDatabaseLinker.class.php';
 
 $nivelDePantalla=3;
 $nivelDePerfil=5;

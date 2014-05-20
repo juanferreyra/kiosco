@@ -310,6 +310,35 @@ class KioscoDatabaseLinker
 		return $ret;
 	}
 
+	function getRubrosJson()
+	{
+		$response = new stdClass();
+
+		$rubrosarray=$this->getRubros();
+
+		$response->page = 1;
+		$response->total = 1; 
+		$response->records = count($rubrosarray); 
+	
+		for ($i=0; $i < count($rubrosarray) ; $i++) 
+		{ 
+			$rubro = $rubrosarray[$i];
+			//id de fila
+			$response->rows[$i]['id'] = $rubro['idrubro']; 
+			//datos de la fila en otro array
+			$row = array();
+			$row[] =$rubro['descripcion'];
+			$row[] = '';
+			//agrego datos a la fila con clave cell
+			$response->rows[$i]['cell'] = $row;
+		}
+
+		$response->userdata['descripcion']= 'Descripcion';		
+		$response->userdata['myac'] = '';
+
+		return json_encode($response);
+	}
+
 	function eliminarRubro($idrubro)
 	{
 		$query = "UPDATE 

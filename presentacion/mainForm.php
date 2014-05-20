@@ -1,3 +1,7 @@
+<?php
+	include_once '../namespacesAdress.php';
+	include_once negocio.'kioscoDatabaseLinker.class.php';	
+?>	
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 	<head>
@@ -25,12 +29,7 @@
 		<script src="includes/plug-in/jqGrid/js/i18n/grid.locale-en.js" type="text/javascript"></script>
 		<script src="includes/plug-in/jqGrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
 
-
 		<script src="includes/js/mainForm.js" type="text/javascript"></script>
-
-		<?php
-		include_once '../negocio/kioscoDatabaseLinker.class.php';
-		?>
 
 	</head>
 	<body>
@@ -50,9 +49,12 @@
 									<ul>
 										<!-- botones de manejo de articulos-->
 
-										<li><a class="icon icon-food" href="#" id="btnAgregarRubro">Agregar Rubro</a></li>
 										<li><a class="icon icon-tv" href="#" id="btnAgregarProducto">Agregar Articulos</a></li>
 										<li><a class="icon icon-food" href="#" id="btnVerProducto">Ver Articulos</a></li>
+										<li><a class="icon icon-food" href="#" id="btnAgregarRubro">Agregar Rubro</a></li>
+										<li><a class="icon icon-food" href="#" id="btnVerRubro">Ver Rubros</a></li>
+
+
 									</ul>
 								</div>
 							</li>
@@ -97,29 +99,31 @@
 						<div class="codrops-top clearfix">
 							<p><a href="#" id="trigger" class="menu-trigger"><span>toca Abrir/Cerrar Menu</span></a></p>
 						</div>
-						<header class="codrops-header">
-							<h1>Kiosco Lauris</h1>
-						</header>
 						<div class="content clearfix">
-							<div class="block block-40 clearfix">
-								</nav>
-							</div>
-							<div class="block block-60">
+
+							<div id="contenedor">
+
+								<header class="codrops-header">
+									<h1>Kiosco Lauris</h1>
+								</header>
+								<!-- <div class="block block-40 clearfix">
+									</nav>
+								</div> 
+								<div class="block block-60">
+
+								-->
 
 								<!--Aca van todos los cuadros de dialogo-->
 
 								<!-- Dialogos de menejo de productos -->
-
-								<div id="dialogVerProducto" style="visibility: hidden; ">
-
-									<div align="center"; ><table id="jqprodu" ></table></div>
-
-								</div>
+							</div>
+							<div id="dialog">
 
 								<div id="dialogAgregarProducto" style="visibility: hidden;">
 									
 								</div>
 
+								
 								<div id="dialogAgregarRubro" style="visibility: hidden;">
 									
 

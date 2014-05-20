@@ -1,5 +1,6 @@
 <?php
-include_once '../../../negocio/kioscoDatabaseLinker.class.php';
+include_once '../../../namespacesAdress.php';
+include_once negocio.'kioscoDatabaseLinker.class.php';
 
 $descripcion=$_POST['descripcion'];
 

@@ -20,7 +20,7 @@ if(isset($_POST['oper']) && $_POST['oper']=="del")
 	else 
 	{
 		$ret->result = false;
-		throw new Exception("El id del articulo debe ser especificado", 2032);
+		throw new Exception("El id del rubro debe ser especificado", 2032);
 	}	
 }
 else {
@@ -34,7 +34,7 @@ if($ret->result)
 	
 	try 
 	{
-		$baseDeDatos->eliminarProducto($index);	
+		$baseDeDatos->eliminarRubro($index);	
 	}
 	catch (Exception $e)
 	{
