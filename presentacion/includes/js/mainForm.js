@@ -10,19 +10,11 @@ $(document).ready(function() {
       $( "#dialog:ui-dialog" ).dialog( "destroy" );
       $( "#dialogAgregarProducto" ).css('visibility',"visible");
       $( "#dialogAgregarProducto" ).dialog({
-        width:500,
-        high:1000,
         title:"Agregar Producto",
         buttons: {
           "Guardar": function() {
-            codigoprodu=$('#codigoprodu').val();
-            rubroprodu=$('#rubroprodu').val();
-            stockminprodu=$('#stockminprodu').val();
-            preciocompraprodu=$('#preciocompraprodu').val();
-            precioventaprodu=$('#precioventaprodu').val();
-            descripcionprodu=$('#descripcionprodu').val();
             $.ajax({
-              data: "codigo="+codigoprodu+"&rubro="+rubroprodu+"&stockminimo="+stockminprodu+"&preciocompra="+preciocompraprodu+"&precioventa="+precioventaprodu+"&descripcion="+descripcionprodu,
+              data: $('#agregarprodu').serialize(),
               type: "POST",
               dataType: "json",
               url: "../presentacion/includes/ajaxFunctions/AgregarProductos.php",
@@ -31,13 +23,8 @@ $(document).ready(function() {
                 if(data.result)
                 {
                   alert("Produto Agregado.");
-                  $('#codigoprodu').val('');
-                  $('#rubroprodu').val('');
-                  $('#stockminprodu').val('');
-                  $('#preciocompraprodu').val('');
-                  $('#precioventaprodu').val('');
-                  $('#descripcionprodu').val('');
-                 $("#jqprodu").trigger("reloadGrid"); 
+                  $('#agregarprodu').get(0).reset();
+                  $("#jqprodu").trigger("reloadGrid"); 
                 }
                 else
                 {
