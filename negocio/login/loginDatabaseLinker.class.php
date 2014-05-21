@@ -1,15 +1,6 @@
 <?php
-include_once '../conectionData.php';
-include_once '../dataBaseConnector.php';
-
-class LoginDatabaseLinker
+class loginDatabaseLinker
 {
-	var $dbKiosco;
-
-	function LoginDatabaseLinker()
-	{
-		$this->dbKiosco = new dataBaseConnector(HOSTLocal,0,DBKiosco,USRDBAdmin,PASSDBAdmin);
-	}
 
 	function sec_session_start() 
 	{
@@ -35,7 +26,7 @@ class LoginDatabaseLinker
 	        $stmt->bind_result($user_id, $username, $db_password, $salt); //Obtiene las variables del resultado.
 	        $stmt->fetch();
 	        $password = hash('sha512', $password.$salt); //Hash de la contraseña con salt única.
-	        if($stmt->num_rows == 1)
+	        if($stmt->num_rows == 1) 
 	        { 
 	        //Si el usuario existe.
 	        //Revisamos si la cuenta está bloqueada de muchos intentos de conexión.
