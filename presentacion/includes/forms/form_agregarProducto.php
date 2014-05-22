@@ -21,8 +21,8 @@ $rubros = $obj->getRubros();
 
 <form id="agregarprodu">
 	<input type='hidden' value='true' id='habilitado' name='habilitado'>
-	Codigo de producto: <input type="text" id="codigoprodu" name="codigoprodu"> <br>
-	Rubro de producto: <select id="rubroprodu" name="rubroprodu"> 
+	Codigo de producto: <input type="text" name="codigo"> <br>
+	Rubro de producto: <select name="idrubro"> 
 	<option value="">Selecione un rubro</option>
 	<?php     
 	for($i=0; $i<count($rubros);$i++ )
@@ -32,8 +32,8 @@ $rubros = $obj->getRubros();
 	?>
 	</select>
 	<br>
-	Stock minimo: <input type="text" id="stockminprodu" name="stockminprodu"> <br>
-	Precio compra: <input type="text" id="preciocompraprodu" name="preciocompraprodu"> <br>
-	Precio venta: <input type="text" id="precioventaprodu" name="precioventaprodu"> <br>
-	Descripcion de producto: <input type="text" id="descripcionprodu" name="descripcionprodu"> <br>
+	Stock minimo: <input type="text" name="stock_minimo"> <br>
+	Precio compra: <input type="text" name="precio_compra"> <br>
+	Precio venta: <input type="text" name="precio_venta"> <br>
+	Descripcion de producto: <input type="text" name="descripcion"> <br>
 </form>

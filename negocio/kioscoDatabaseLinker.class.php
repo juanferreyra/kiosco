@@ -16,7 +16,8 @@ class KioscoDatabaseLinker
 	}
 
 	//Funciones referidas a los productos
-	function agregarProducto($codigo, $stock_minimo, $precio_compra, $precio_venta, $descripcion, $idrubro)
+
+	function agregarProducto($data)
 	{
 		$query = "INSERT INTO producto (
 						codigo_producto, 
@@ -26,13 +27,13 @@ class KioscoDatabaseLinker
 						datetime, 
 						descripcion, 
 						idrubro) 
-				  VALUES ( ".$codigo." , 
-				  		".$stock_minimo." , 
-				  		".$precio_compra." , 
-				  		".$precio_venta." , 
+				  VALUES ( ".$data['codigo']." , 
+				  		".$data['stock_minimo']." , 
+				  		".$data['precio_compra']." , 
+				  		".$data['precio_venta']." , 
 				  		now(), 
-				  		'".$descripcion."' , 
-				  		".$idrubro."
+				  		'".$data['descripcion']."' , 
+				  		".$data['idrubro']."
 				  		);";
 		try
 			{
