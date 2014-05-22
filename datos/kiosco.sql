@@ -89,8 +89,10 @@ CREATE TABLE `producto` (
   `descripcion` varchar(45) DEFAULT NULL,
   `habilitado` tinyint(1) DEFAULT '1',
   `idrubro` int(11) DEFAULT NULL,
-  PRIMARY KEY (`idproducto`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`idproducto`),
+  KEY `fk_producto_rubro` (`idrubro`),
+  CONSTRAINT `fk_producto_rubro` FOREIGN KEY (`idrubro`) REFERENCES `rubro` (`idrubro`) ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,8 +101,32 @@ CREATE TABLE `producto` (
 
 LOCK TABLES `producto` WRITE;
 /*!40000 ALTER TABLE `producto` DISABLE KEYS */;
-INSERT INTO `producto` VALUES (0,2147483647,10,3.50000,4.00000,'0000-00-00 00:00:00','Galletitas Oreo',0,1),(1,1519948948,5,5.70000,10.00000,'0000-00-00 00:00:00','Snacks',0,6),(2,1801,10,5.80000,6.50000,'2014-04-17 12:26:06','coca cola',0,6),(3,3,10,5.00000,6.00000,'2014-05-14 12:36:53','Cavernicola',1,1),(4,3,10,5.00000,6.00000,'2014-05-14 12:39:43','Cavernicola',1,1),(5,3,10,5.00000,6.00000,'2014-05-14 12:43:06','Hue',1,1),(6,3,10,5.00000,6.00000,'2014-05-14 12:45:30','Hue',0,1),(7,3,10,5.00000,6.00000,'2014-05-14 12:47:59','Hue2',1,1),(8,3,10,5.00000,6.00000,'2014-05-14 12:50:08','Hue3',1,1),(9,3,10,5.00000,6.00000,'2014-05-14 13:25:22','Hue4',1,1),(10,3,10,5.00000,6.00000,'2014-05-14 13:55:18','Hue5',1,1),(11,3,10,5.00000,6.00000,'2014-05-14 14:03:07','Hue7',1,1),(12,3,10,5.00000,6.00000,'2014-05-14 14:05:29','Hue8',1,1),(13,3,10,5.00000,6.00000,'2014-05-14 14:07:40','Hue9',1,1),(14,12,112,12.00000,12.00000,'2014-05-14 14:17:17','ASD',0,12),(15,12,112,12.00000,12.00000,'2014-05-14 14:17:58','ASD',1,12),(16,12,112,12.00000,12.00000,'2014-05-14 14:18:40','ASD',1,12),(17,12,112,12.00000,12.00000,'2014-05-14 14:19:21','ASD',1,12),(18,12,112,12.00000,12.00000,'2014-05-14 14:25:47','ASD',1,12),(19,12,112,12.00000,12.00000,'2014-05-14 14:26:29','ASD',1,12),(20,12,112,12.00000,12.00000,'2014-05-14 14:30:41','ASD',1,12),(21,12,112,12.00000,12.00000,'2014-05-14 14:31:47','ASD',1,12),(22,9,9,9.00000,9.00000,'2014-05-14 14:34:36','hokl',1,9),(23,9,9,9.00000,9.00000,'2014-05-14 14:34:46','hokl',1,9),(24,9,9,9.00000,9.00000,'2014-05-14 14:35:14','hokl',1,9),(25,1,3,4.00000,5.00000,'2014-05-14 14:36:57','pro1',1,2),(26,2,4,5.00000,6.00000,'2014-05-14 14:37:06','pro2',1,3),(27,155,15,15.00000,15.00000,'2014-05-16 09:27:33','asdasdasd2222',1,1),(28,15,15,15.00000,15.00000,'2014-05-16 09:32:41','bondiola bondiolera justiciera',1,15),(29,1555557,10,5.00000,6.00000,'2014-05-19 12:09:16','Cacao',1,2),(30,5558,5,155.00000,160.00000,'2014-05-19 12:53:28','Agua caliente',1,4),(31,123123,123,123.00000,23.00000,'2014-05-19 14:19:31','234',1,1);
+INSERT INTO `producto` VALUES (0,2147483647,10,3.50000,4.00000,'0000-00-00 00:00:00','Galletitas Oreo',0,1),(1,1519948948,5,5.70000,10.00000,'0000-00-00 00:00:00','Snacks',0,6),(2,1801,10,5.80000,6.50000,'2014-04-17 12:26:06','coca cola',0,6),(3,3,10,5.00000,6.00000,'2014-05-14 12:36:53','Cavernicola',1,1),(4,3,10,5.00000,6.00000,'2014-05-14 12:39:43','Cavernicola',1,1),(5,3,10,5.00000,6.00000,'2014-05-14 12:43:06','Hue',1,1),(6,3,10,5.00000,6.00000,'2014-05-14 12:45:30','Hue',0,1),(7,3,10,5.00000,6.00000,'2014-05-14 12:47:59','Hue2',1,1),(8,3,10,5.00000,6.00000,'2014-05-14 12:50:08','Hue3',1,1),(9,3,10,5.00000,6.00000,'2014-05-14 13:25:22','Hue4',1,1),(10,3,10,5.00000,6.00000,'2014-05-14 13:55:18','Hue5',1,1),(11,3,10,5.00000,6.00000,'2014-05-14 14:03:07','Hue7',1,1),(12,3,10,5.00000,6.00000,'2014-05-14 14:05:29','Hue8',1,1),(13,3,10,5.00000,6.00000,'2014-05-14 14:07:40','Hue9',1,1),(22,9,9,9.00000,9.00000,'2014-05-14 14:34:36','hokl',1,9),(23,9,9,9.00000,9.00000,'2014-05-14 14:34:46','hokl',1,9),(24,9,9,9.00000,9.00000,'2014-05-14 14:35:14','hokl',1,9),(25,1,3,4.00000,5.00000,'2014-05-14 14:36:57','pro1',1,2),(26,2,4,5.00000,6.00000,'2014-05-14 14:37:06','pro2',1,3),(27,155,15,15.00000,15.00000,'2014-05-16 09:27:33','asdasdasd2222',1,1),(29,1555557,10,5.00000,6.00000,'2014-05-19 12:09:16','Cacao',1,2),(30,5558,5,155.00000,160.00000,'2014-05-19 12:53:28','Agua caliente',1,4),(31,123123,123,123.00000,23.00000,'2014-05-19 14:19:31','234',1,1),(32,4,2,3.00000,4.00000,'2014-05-20 16:07:36','Huadsf 3',1,2),(33,5,1,1.00000,1.00000,'2014-05-20 16:11:24','KJ dads',1,0),(34,11112211,10,25.00000,100000.00000,'2014-05-21 11:50:30','$_POST bebible',1,1);
 /*!40000 ALTER TABLE `producto` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `permiso`
+--
+
+DROP TABLE IF EXISTS `permiso`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `permiso` (
+  `idpermiso` varchar(45) NOT NULL,
+  `detalle` varchar(255) NOT NULL,
+  PRIMARY KEY (`idpermiso`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `permiso`
+--
+
+LOCK TABLES `permiso` WRITE;
+/*!40000 ALTER TABLE `permiso` DISABLE KEYS */;
+INSERT INTO `permiso` VALUES ('CLIENTES_Y_PROVEEDORES','Clientes y Proveedores'),('CONSULTAS','Consultas'),('IMPRIMIR_ETIQUETAS','Imprimir etiquetas y códigos de barra'),('PRODUCTOS','Productos'),('USUARIOS','Administrar usuarios'),('VENTAS','Ventas');
+/*!40000 ALTER TABLE `permiso` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -186,26 +212,29 @@ INSERT INTO `caja` VALUES (1,'2014-04-25 12:59:19',800.45801,'2014-04-25 13:13:1
 UNLOCK TABLES;
 
 --
--- Table structure for table `perfil`
+-- Table structure for table `stock_caja_diario`
 --
 
-DROP TABLE IF EXISTS `perfil`;
+DROP TABLE IF EXISTS `stock_caja_diario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `perfil` (
-  `idperfil` int(11) NOT NULL AUTO_INCREMENT,
-  `detalle` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`idperfil`)
+CREATE TABLE `stock_caja_diario` (
+  `idcaja` int(11) NOT NULL,
+  `idproducto` int(11) DEFAULT NULL,
+  `cantidad_ingreso` int(11) DEFAULT NULL,
+  `cantidad_egreso` int(11) DEFAULT NULL,
+  `datetime` datetime DEFAULT NULL,
+  PRIMARY KEY (`idcaja`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `perfil`
+-- Dumping data for table `stock_caja_diario`
 --
 
-LOCK TABLES `perfil` WRITE;
-/*!40000 ALTER TABLE `perfil` DISABLE KEYS */;
-/*!40000 ALTER TABLE `perfil` ENABLE KEYS */;
+LOCK TABLES `stock_caja_diario` WRITE;
+/*!40000 ALTER TABLE `stock_caja_diario` DISABLE KEYS */;
+/*!40000 ALTER TABLE `stock_caja_diario` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -244,7 +273,7 @@ CREATE TABLE `rubro` (
   `descripcion` varchar(45) DEFAULT NULL,
   `habilitado` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`idrubro`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -253,34 +282,35 @@ CREATE TABLE `rubro` (
 
 LOCK TABLES `rubro` WRITE;
 /*!40000 ALTER TABLE `rubro` DISABLE KEYS */;
-INSERT INTO `rubro` VALUES (0,'Varios',1),(1,'Bebidas',1),(2,'Cafeteria',1),(3,'Comedor',1),(4,'Kiosco',1),(5,'Pancho',1),(6,'rubroprueba',1),(7,'Heladeria',1),(8,'rubroprueba',0),(9,'rubro destinado a la muerte',0);
+INSERT INTO `rubro` VALUES (0,'Varios',1),(1,'Bebidas',1),(2,'Cafeteria',1),(3,'Comedor',1),(4,'Kiosco',1),(5,'Pancho',1),(6,'rubroprueba',1),(7,'Heladeria',1),(8,'rubroprueba',0),(9,'rubro destinado a la muerte',0),(10,'Prueba2',1);
 /*!40000 ALTER TABLE `rubro` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `stock_caja_diario`
+-- Table structure for table `usuario_permiso`
 --
 
-DROP TABLE IF EXISTS `stock_caja_diario`;
+DROP TABLE IF EXISTS `usuario_permiso`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `stock_caja_diario` (
-  `idcaja` int(11) NOT NULL,
-  `idproducto` int(11) DEFAULT NULL,
-  `cantidad_ingreso` int(11) DEFAULT NULL,
-  `cantidad_egreso` int(11) DEFAULT NULL,
-  `datetime` datetime DEFAULT NULL,
-  PRIMARY KEY (`idcaja`)
+CREATE TABLE `usuario_permiso` (
+  `idusuario` int(11) NOT NULL,
+  `idpermiso` varchar(45) NOT NULL,
+  PRIMARY KEY (`idusuario`,`idpermiso`),
+  KEY `fk_usuario_permiso_usuario` (`idusuario`),
+  KEY `fk_usuario_permiso_permiso` (`idpermiso`),
+  CONSTRAINT `fk_usuario_permiso_permiso` FOREIGN KEY (`idpermiso`) REFERENCES `permiso` (`idpermiso`) ON UPDATE NO ACTION,
+  CONSTRAINT `fk_usuario_permiso_usuario` FOREIGN KEY (`idusuario`) REFERENCES `usuario` (`idusuario`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `stock_caja_diario`
+-- Dumping data for table `usuario_permiso`
 --
 
-LOCK TABLES `stock_caja_diario` WRITE;
-/*!40000 ALTER TABLE `stock_caja_diario` DISABLE KEYS */;
-/*!40000 ALTER TABLE `stock_caja_diario` ENABLE KEYS */;
+LOCK TABLES `usuario_permiso` WRITE;
+/*!40000 ALTER TABLE `usuario_permiso` DISABLE KEYS */;
+/*!40000 ALTER TABLE `usuario_permiso` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -297,8 +327,12 @@ CREATE TABLE `egreso` (
   `idproducto` int(11) DEFAULT NULL,
   `cantidad` int(11) DEFAULT NULL,
   `datetime` datetime DEFAULT NULL,
-  PRIMARY KEY (`idegreso`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`idegreso`),
+  KEY `fk_egreso_carrito` (`idcarrito`),
+  KEY `fk_egreso_producto` (`idproducto`),
+  CONSTRAINT `fk_egreso_carrito` FOREIGN KEY (`idcarrito`) REFERENCES `carrito` (`idcarrito`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_egreso_producto` FOREIGN KEY (`idproducto`) REFERENCES `producto` (`idproducto`) ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -307,7 +341,6 @@ CREATE TABLE `egreso` (
 
 LOCK TABLES `egreso` WRITE;
 /*!40000 ALTER TABLE `egreso` DISABLE KEYS */;
-INSERT INTO `egreso` VALUES (1,20.00000,1,0,5,'0000-00-00 00:00:00'),(2,10.00000,1,1,1,'0000-00-00 00:00:00'),(3,20.00000,0,0,5,'0000-00-00 00:00:00'),(4,10.00000,2,0,10,'0000-00-00 00:00:00'),(5,NULL,3,12,3,'2014-05-13 09:38:03'),(6,NULL,3,13,15237,'2014-05-13 09:38:03'),(7,NULL,3,15,1111,'2014-05-13 09:42:56'),(8,NULL,3,16,2222,'2014-05-13 09:42:57'),(9,40.00000,5,0,22,'2014-05-13 10:05:58'),(10,NULL,7,16,11111,'2014-05-13 10:07:37'),(11,44444.00000,9,0,11111,'2014-05-13 10:13:23'),(12,44444.00000,10,0,11111,'2014-05-13 12:57:55');
 /*!40000 ALTER TABLE `egreso` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -349,4 +382,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-05-20 14:43:05
+-- Dump completed on 2014-05-22 10:38:21
