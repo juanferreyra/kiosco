@@ -277,6 +277,51 @@ $(document).ready(function() {
       });       
     });
 
+     $("#btnAgregarUsuario").click(function(){
+      $("#dialogAgregarUsuario").load("../presentacion/vistas/usuarios/form_agregarUsuario.php");
+      $( "#dialog:ui-dialog" ).dialog( "destroy" );
+      $( "#dialogAgregarUsuario" ).css('visibility',"visible");
+      $( "#dialogAgregarUsuario" ).dialog({
+        width:500,
+        high:1000,
+        title:"Agregar Usuario",
+        buttons: {
+          /*"Guardar": function() {
+            descripcionrubro=$('#descripcionrubro').val();
+            $.ajax({
+              data: "descripcion="+descripcionrubro,
+              type: "POST",
+              dataType: "json",
+              url: "../presentacion/includes/ajaxFunctions/AgregarRubros.php",
+              success: function(data)
+              {
+                if(data.result)
+                {
+                  alert("Rubro Agregado.");
+                  $('#descripcionrubro').val('');
+                  $("#jqrubro").trigger("reloadGrid"); 
+                }
+                else
+                {
+                  if($('#habilitado').val()=='false')
+                  {
+                    alert('presione cancelar para salir');
+                  }
+                  else
+                  {
+                    alert("Rubro no agregado");
+                  }
+                }
+              }
+            });
+          },*/
+          "Cerrar": function() {
+            $(this).dialog("close");
+          }
+        }
+      });       
+    });
+
     
 
     

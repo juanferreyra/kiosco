@@ -54,7 +54,7 @@
 										<li><a class="icon icon-food" href="#" id="btnVerProducto">Ver Articulos</a></li>
 										<li><a class="icon icon-food" href="#" id="btnAgregarRubro">Agregar Rubro</a></li>
 										<li><a class="icon icon-food" href="#" id="btnVerRubro">Ver Rubros</a></li>
-
+										<li><a class="icon icon-food" href="#" id="btnAgregarUsuario">Agregar Usuarios</a></li>
 
 									</ul>
 								</div>
@@ -126,6 +126,13 @@
 
 								
 								<div id="dialogAgregarRubro" style="visibility: hidden;">
+									
+
+								</div>
+
+								<!-- DIalogos de usuarios -->
+
+								<div id="dialogAgregarUsuario" style="visibility: hidden;">
 									
 
 								</div>
