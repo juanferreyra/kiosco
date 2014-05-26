@@ -978,7 +978,7 @@ class KioscoDatabaseLinker
 
 		$contrasenamd5 = md5($contrasena);
 
-		$query = "INSERT INTO usuario (idusuario, detalle, idturno,contrasena , nombre) VALUES (".$nroIdUsuario.",'".$detalle."',".$idturno.",'".$contrasenamd5."','".$nombre"');";
+		$query = "INSERT INTO usuario (idusuario, detalle, idturno,contrasena , nombre) VALUES (".$nroIdUsuario.",'".$detalle."',".$idturno.",'".$contrasenamd5."','".$nombre."');";
 
 		try
 			{
@@ -1022,7 +1022,7 @@ class KioscoDatabaseLinker
 		}
 	}
 
-	function registrarTodosPermisosUsuario(idusuario, $permisos)
+	function registrarTodosPermisosUsuario($idusuario, $permisos)
 	{
 		$completado = true;
 
@@ -1165,7 +1165,7 @@ class KioscoDatabaseLinker
 		}
 	}
 
-	function permisosDeUsuario(usuario)
+	function permisosDeUsuario($usuario)
 	{
 
 		$query = "	SELECT 
@@ -1189,7 +1189,7 @@ class KioscoDatabaseLinker
 
 		$result = $this->dbKiosco->fetchRow($query);
 
-		$ret = new array();
+		$ret = array();
 
 		for($i = 0 ; $i < $this->dbKiosco->querySize; $i++)
 		{
