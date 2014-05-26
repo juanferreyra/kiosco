@@ -1,7 +1,7 @@
 <?php
-	include_once '../namespacesAdress.php';
-	include_once negocio.'kioscoDatabaseLinker.class.php';
-	
+include_once '../namespacesAdress.php';
+include_once negocio.'kioscoDatabaseLinker.class.php';
+session_start();
 ?>	
 <!DOCTYPE html>
 <html lang="en" class="no-js">

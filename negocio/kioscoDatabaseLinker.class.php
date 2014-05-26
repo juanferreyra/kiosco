@@ -867,7 +867,7 @@ class KioscoDatabaseLinker
 
 	function traerPermisos()
 	{
-		$query="SELECT detalle FROM permiso;"
+		$query="SELECT idpermiso, detalle FROM permiso;";
 
 		try
 			{
@@ -892,86 +892,106 @@ class KioscoDatabaseLinker
 		return $arr;
 	}
 
-
-	
 //------------------------------------------------------------------------------------------------
 
 	/*Funciones orientadas al manejo de usuarios*/
-	function agregarUsuario($detalle,$idturno,$contrasena, $idperfil)
+
+	function confirmarRegistroUsuario($data)
 	{
-		$contrasenamd5 = md5($contrasena);
-
-		if ($this->usuarioExiste($detalle)) 
-		{
-			throw new Exception("el usuario ya existe papa!!", 17052013);
-			return false;
-		}
-		else
-		{
-		
-			$query="INSERT INTO usuario (detalle, idturno,contrasena, idperfil ,habilitado) VALUES ('".$detalle."',".$idturno.",'".$contrasenamd5."',".$idperfil." , 1);";
-
-			try
-				{
-					$this->dbKiosco->conectar();
-					$this->dbKiosco->ejecutarAccion($query);
-				}
-			catch (Exception $e)
-				{
-					throw new Exception("Error al conectar con la base de datos", 17052013);
-					return false;
-				}
-
-			return true;			
-		}
-	}
-
-
-	function agregarUsuarioPOST($data)
-	{
-		$contrasenamd5 = md5($data['contrasena']);
+		$response = new stdClass();
 
 		if ($this->usuarioExiste($data['detalle'])) 
 		{
-			throw new Exception("el usuario ya existe papa!!", 17052013);
-			return false;
+			$response->messaje = "El usuario ya existe papa!!";
+			$responde->ret = false;
+			return $respose;
 		}
 		else
 		{
-		
-			$query="INSERT INTO usuario (nombre, detalle, idturno,contrasena, idperfil ,habilitado) VALUES ('".$data['nombre']."' '".$data['detalle']."',".$data['idturno'].",'".$contrasenamd5."',".$data['idperfil']." , 1);";
+			try 
+			{
+				$idusuario = $this->agregarUsuario($data['detalle'], $data['idturno'], $data['contrasena'], $data['nombre']);
+			} 
+			catch (Exception $e) 
+			{
+				$response->messaje = "Ocurrio un error al crear el usuario";
+				$response->ret = false;
+			}
 
-			try
-				{
-					$this->dbKiosco->conectar();
-					$this->dbKiosco->ejecutarAccion($query);
-				}
-			catch (Exception $e)
-				{
-					throw new Exception("Error al conectar con la base de datos", 17052013);
-					return false;
-				}
+			try //savepoint en registrarEgreso
+			{
+				$cargo = $this->registrarTodosPermisosUsuario($idusuario,$data['accesos']);
+			} 
+			catch (Exception $e) 
+			{
+				throw new Exception("error al registrar el movimiento", 17052013);
+				$response->ret = false;
+			}
+			
+			if(!$cargo)
+			{
+				$this->eliminarConfirmacion();
+				$response->messaje = "El usuario se a creado correctamente";
+				$response->ret = true;
 
-			return true;			
+			}
+			else
+			{
+			    $this->finalizarRegistroUsuario();
+			    $responde->messaje = "Se ah producido un error al registrar el usuario";
+			    $response->ret = false;
+			}
+
+			return $response;
+
 		}
 	}
 
-	function eliminarUsuario($usuario)
+	function agregarUsuario($detalle, $idturno, $contrasena, $nombre)
 	{
-		$query="UPDATE usuario set habilitado = 0 WHERE usuario=".$usuario." and habilitado = 1;";
-
 		try
 			{
 				$this->dbKiosco->conectar();
+			}
+			catch (Exception $e)
+			{
+				throw new Exception("No se pudo insertar el dato en la tabla", 201230);
+			}
+		
+		$query="SELECT 
+					IFNULL(MAX(idusuario),0)+1 AS proximo
+				FROM 
+				  	usuario;";
+		
+		try
+			{
+				$this->dbKiosco->ejecutarQuery($query);
+			}
+			catch (Exception $e)
+			{
+				throw new Exception("No se pudo obtener el proximo nro para el ingreso de usuario", 201230);
+			}
+
+		$result = $this->dbKiosco->fetchRow();
+
+		$nroIdUsuario = $result['proximo'];
+
+		$contrasenamd5 = md5($contrasena);
+
+		$query = "INSERT INTO usuario (idusuario, detalle, idturno,contrasena , nombre) VALUES (".$nroIdUsuario.",'".$detalle."',".$idturno.",'".$contrasenamd5."','".$nombre."');";
+
+		try
+			{
 				$this->dbKiosco->ejecutarAccion($query);
 			}
-		catch (Exception $e)
+			catch (Exception $e)
 			{
-				throw new Exception("Error al conectar con la base de datos", 17052013);
-				return false;
-			}
-		return true;
+				throw new Exception("No se pudo ejecutar la accion del insert", 201230);
+			}		
 
+		$this->dbKiosco->desconectar();
+
+		return $nroIdUsuario;
 	}
 
 	function usuarioExiste($usuario)
@@ -1000,6 +1020,110 @@ class KioscoDatabaseLinker
 		{
 			return false; //usuario no existe
 		}
+	}
+
+	function registrarTodosPermisosUsuario($idusuario, $permisos)
+	{
+		$completado = true;
+
+		$query="SAVEPOINT savepoint;";
+
+		try
+			{
+				$this->dbKiosco->conectar();
+				$this->dbKiosco->ejecutarQuery($query);
+			}
+		catch (Exception $e)
+			{
+				throw new Exception("Error al conectar con la base de datos", 17052013);
+			}
+
+		for($i=0; $i<count($permisos); $i++)
+		{
+			try 
+			{
+				$this->registrarPermiso($idusuario, $permisos[$i]);
+			}
+			catch (Exception $e)
+			{
+				$completado = false;
+				break;
+			}
+		}
+
+		return $completado;
+	}
+
+	function registrarPermiso($idusuario, $perfil)
+	{	
+		$query="INSERT INTO usuario_permiso (idusuario, idpermiso) VALUES (".$idusuario.", '".$perfil."';";
+
+		try
+			{
+				$this->dbKiosco->conectar();
+				$this->dbKiosco->ejecutarAccion($query);
+			}
+		catch (Exception $e)
+			{
+				throw new Exception("Error al conectar con la base de datos", 17052013);
+				$this->dbKiosco->desconectar();
+				return false;
+			}
+
+		$this->dbKiosco->desconectar();
+		return true;
+	}
+
+	function finalizarRegistroUsuario()
+	{
+		$query = "COMMIT;";
+
+		try
+			{
+				$this->dbKiosco->conectar();
+				$this->dbKiosco->ejecutarQuery($query);
+			}
+		catch (Exception $e)
+			{
+				throw new Exception("Error al conectar con la base de datos", 17052013);
+			}
+
+		$this->dbKiosco->desconectar();
+	}
+
+	function eliminarConfirmacionRegistro()
+	{
+		$rollback = "ROLLBACK TO SAVEPOINT savepoint;"; 
+
+		try 
+		{
+			$this->dbKiosco->conectar();
+			$this->dbKiosco->ejecutarQuery($rollback);	
+		} 
+		catch (Exception $e) 
+		{
+			throw new Exception("Error al conectar con la base de datos", 17052013);
+		}
+			
+		$this->dbKiosco->desconectar();
+	}
+
+	function eliminarUsuario($idusuario)
+	{
+
+		$query="UPDATE usuario set habilitado = 0 WHERE idusuario=".$idusuario." and habilitado = 1;";
+
+		try
+			{
+				$this->dbKiosco->conectar();
+				$this->dbKiosco->ejecutarAccion($query);
+			}
+		catch (Exception $e)
+			{
+				throw new Exception("Error al conectar con la base de datos", 17052013);
+				return false;
+			}
+		return true;
 	}
 
 	function accesoKiosco($usuario, $contrasenaIngresada)
@@ -1041,32 +1165,62 @@ class KioscoDatabaseLinker
 		}
 	}
 
-	function ingresarPerfilesAUsuario($usuario, $perfiles)
-	{	
-		for($i=0; $i<count($perfiles);$i++)
-		{
-			$query="INSERT INTO usuario_permiso (idusuario, idpermiso) VALUES (".$usuario.", '".$perfiles[$i]."';";
+	function permisosDeUsuario($usuario)
+	{
 
-		try
+		$query = "	SELECT 
+						p.idpermiso as permiso
+					FROM 
+						permiso p LEFT JOIN
+						usuario u (u.idusuario=p.idusuario)
+					WHERE 
+						u.detalle = '".$usuario."';";
+
+		try 
+		{
+			$this->dbKiosco->conectar();
+			$this->dbKiosco->ejecutarQuery($query);
+		}
+		catch (Exception $e) 
+		{
+			throw new Exception("Error al realizar consulta de accesos de usuario", 17052013);
+			return false;
+		}
+
+		$result = $this->dbKiosco->fetchRow($query);
+
+		$ret = array();
+
+		for($i = 0 ; $i < $this->dbKiosco->querySize; $i++)
+		{
+			$ret[] = $result['permiso'];
+		}
+
+		return $ret;
+	}
+
+	function controlAcceso($usuario, $acceso)
+	{
+		try 
+		{
+			$permisos = $this->permisosDeUsuario($usuario);	
+		} 
+		catch (Exception $e) 
+		{
+			throw new Exception("Error al consultar los permisos del usuario", 17052013);
+			return false;
+		}
+
+		for ($i=0; $i < count($permisos); $i++)
+		{ 
+			if ($permisos[$i]==$acceso) 
 			{
-				$this->dbKiosco->conectar();
-				$this->dbKiosco->ejecutarAccion($query);
-			}
-		catch (Exception $e)
-			{
-				throw new Exception("Error al conectar con la base de datos", 17052013);
-				$this->dbKiosco->desconectar();
-				return false;
+				return true;
 			}
 		}
 
-		$this->dbKiosco->desconectar();
-		return true;
-
+		return false;
 	}
-
-
-
 
 }
 ?>
