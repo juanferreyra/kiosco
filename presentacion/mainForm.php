@@ -1,6 +1,7 @@
 <?php
 	include_once '../namespacesAdress.php';
-	include_once negocio.'kioscoDatabaseLinker.class.php';	
+	include_once negocio.'kioscoDatabaseLinker.class.php';
+	
 ?>	
 <!DOCTYPE html>
 <html lang="en" class="no-js">
@@ -40,7 +41,7 @@
 				<!-- mp-menu -->
 				<nav id="mp-menu" class="mp-menu">
 					<div class="mp-level">
-						<h2 class="icon icon-search">Menu de Kiosco</h2>
+						<h2 class="icon icon-search">Menu de Kiosco <?php echo $_SESSION['usuario']; ?></h2>
 						<ul>
 							<li class="icon icon-arrow-left">
 								<a class="icon icon-like" href="#">Administracion</a>

@@ -865,6 +865,33 @@ class KioscoDatabaseLinker
 		return $arr;
 	}
 
+	function traerPermisos()
+	{
+		$query="SELECT detalle FROM permiso;"
+
+		try
+			{
+				$this->dbKiosco->conectar();
+				$this->dbKiosco->ejecutarQuery($query);
+			}
+		catch (Exception $e)
+			{
+				throw new Exception("Error al conectar con la base de datos", 17052013);
+			}
+
+		$arr = array();
+
+		for($i = 0 ; $i < $this->dbKiosco->querySize; $i++)
+		{
+			$result = $this->dbKiosco->fetchRow($query);
+			$arrdos = array('idpermiso' => $result['idpermiso'],'detalle' => $result['detalle']);
+			$arr[] = $arrdos;
+		}
+
+		$this->dbKiosco->desconectar();
+		return $arr;
+	}
+
 
 	
 //------------------------------------------------------------------------------------------------
@@ -883,6 +910,36 @@ class KioscoDatabaseLinker
 		{
 		
 			$query="INSERT INTO usuario (detalle, idturno,contrasena, idperfil ,habilitado) VALUES ('".$detalle."',".$idturno.",'".$contrasenamd5."',".$idperfil." , 1);";
+
+			try
+				{
+					$this->dbKiosco->conectar();
+					$this->dbKiosco->ejecutarAccion($query);
+				}
+			catch (Exception $e)
+				{
+					throw new Exception("Error al conectar con la base de datos", 17052013);
+					return false;
+				}
+
+			return true;			
+		}
+	}
+
+
+	function agregarUsuarioPOST($data)
+	{
+		$contrasenamd5 = md5($data['contrasena']);
+
+		if ($this->usuarioExiste($data['detalle'])) 
+		{
+			throw new Exception("el usuario ya existe papa!!", 17052013);
+			return false;
+		}
+		else
+		{
+		
+			$query="INSERT INTO usuario (nombre, detalle, idturno,contrasena, idperfil ,habilitado) VALUES ('".$data['nombre']."' '".$data['detalle']."',".$data['idturno'].",'".$contrasenamd5."',".$data['idperfil']." , 1);";
 
 			try
 				{
@@ -973,6 +1030,8 @@ class KioscoDatabaseLinker
 
 			if($contrasenaIngresadamd5 == $result['contrasena'])
 			{
+				
+				$_SESSION['usuario'] = $usuario;
 				return true; //usuario existe y contraseña coincide
 			}
 			else
@@ -981,6 +1040,33 @@ class KioscoDatabaseLinker
 			}
 		}
 	}
+
+	function ingresarPerfilesAUsuario($usuario, $perfiles)
+	{	
+		for($i=0; $i<count($perfiles);$i++)
+		{
+			$query="INSERT INTO usuario_permiso (idusuario, idpermiso) VALUES (".$usuario.", '".$perfiles[$i]."';";
+
+		try
+			{
+				$this->dbKiosco->conectar();
+				$this->dbKiosco->ejecutarAccion($query);
+			}
+		catch (Exception $e)
+			{
+				throw new Exception("Error al conectar con la base de datos", 17052013);
+				$this->dbKiosco->desconectar();
+				return false;
+			}
+		}
+
+		$this->dbKiosco->desconectar();
+		return true;
+
+	}
+
+
+
 
 }
 ?>

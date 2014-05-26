@@ -3,6 +3,7 @@ include_once '../namespacesAdress.php';
 include_once negocio.'kioscoDatabaseLinker.class.php';
 
 //control_acceso($user_id,$cc_password,$AREA_P,$FUNCION);
+session_start();
 
 $DBKiosco = new KioscoDatabaseLinker();
 
