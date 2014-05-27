@@ -1199,7 +1199,7 @@ class KioscoDatabaseLinker
 		return $ret;
 	}
 
-	function controlAcceso($usuario, $acceso)
+	function controlAcceso($usuario, $area)
 	{
 		try 
 		{
@@ -1213,7 +1213,7 @@ class KioscoDatabaseLinker
 
 		for ($i=0; $i < count($permisos); $i++)
 		{ 
-			if ($permisos[$i]==$acceso) 
+			if ($permisos[$i]==$area) 
 			{
 				return true;
 			}
