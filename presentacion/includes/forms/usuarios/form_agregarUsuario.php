@@ -1,11 +1,15 @@
 <?php
-include_once "../../../namespacesAdress.php";
-include_once negocio."kioscoDatabaseLinker.class.php";
+include_once '../../../../namespacesAdress.php';
+include_once negocio.'kioscoDatabaseLinker.class.php';
 
 $dbKiosco = new KioscoDatabaseLinker();
 
 $acceso = $dbKiosco->traerPermisos();
+
 ?>
+<script type="text/javascript">
+	
+</script>
 
 <div class="post" id="wrapper">
 	

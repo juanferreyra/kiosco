@@ -1,6 +1,7 @@
 <?php
 include_once '../namespacesAdress.php';
 include_once negocio.'kioscoDatabaseLinker.class.php';
+$DBkiosco = new KioscoDatabaseLinker();
 session_start();
 ?>	
 <!DOCTYPE html>
@@ -41,7 +42,7 @@ session_start();
 				<!-- mp-menu -->
 				<nav id="mp-menu" class="mp-menu">
 					<div class="mp-level">
-						<h2 class="icon icon-search">Menu de Kiosco <?php echo $_SESSION['usuario']; ?></h2>
+						<h2 class="icon icon-search">Menu de Kiosco</h2>
 						<ul>
 							<li class="icon icon-arrow-left">
 								<a class="icon icon-like" href="#">Administracion</a>
@@ -51,10 +52,10 @@ session_start();
 										<!-- botones de manejo de articulos-->
 
 										<li><a class="icon icon-tv" href="#" id="btnAgregarProducto">Agregar Articulos</a></li>
-										<li><a class="icon icon-food" href="#" id="btnVerProducto">Ver Articulos</a></li>
-										<li><a class="icon icon-food" href="#" id="btnAgregarRubro">Agregar Rubro</a></li>
-										<li><a class="icon icon-food" href="#" id="btnVerRubro">Ver Rubros</a></li>
-										<li><a class="icon icon-food" href="#" id="btnAgregarUsuario">Agregar Usuarios</a></li>
+										<li><a class="icon icon-eye" href="#" id="btnVerProducto">Ver Articulos</a></li>
+										<li><a class="icon icon-stack" href="#" id="btnAgregarRubro">Agregar Rubro</a></li>
+										<li><a class="icon icon-eye" href="#" id="btnVerRubro">Ver Rubros</a></li>
+										<li><a class="icon icon-male" href="#" id="btnAgregarUsuario">Agregar Usuarios</a></li>
 
 									</ul>
 								</div>
@@ -66,7 +67,7 @@ session_start();
 									<ul>
 										<!-- botones de compra-->
 
-										<li><a class="icon icon-stack" href="#" id="btnIngresarCompra">Ingresar Compra</a></li>
+										<li><a class="icon icon-banknote" href="#" id="btnIngresarCompra">Ingresar Compra</a></li>
 										<li><a class="icon icon-eye" href="#" id="btnVerFacturas">Ver Facturas</a></li>
 									</ul>
 								</div>
@@ -98,26 +99,37 @@ session_start();
 					<div class="scroller-inner">
 						<!-- Top Navigation -->
 						<div class="codrops-top clearfix">
-							<p><a href="#" id="trigger" class="menu-trigger"><span>toca Abrir/Cerrar Menu</span></a></p>
+							<div id="open">
+								<a href="#" id="trigger" class="menu-trigger"><span>toca Abrir/Cerrar Menu</span></a>
+							</div>
+							<div id="account">
+								<ul>
+									<li>
+										Usuario
+									</li>
+									<li>
+										<?php echo $DBkiosco->getNombreUsuario($_SESSION['usuario']); ?>
+									</li>
+									<li>
+										<a href="login.php">Terminar sesión</a>
+									</li>
+								</ul>
+							</div>
 						</div>
-						<div class="content clearfix">
 
+						<div class="content clearfix">
+							<!--contenedor donde se cargan las cosas en pantalla -->
 							<div id="contenedor">
 
-								<header class="codrops-header">
-									<h1>Kiosco Lauris</h1>
-								</header>
-								<!-- <div class="block block-40 clearfix">
-									</nav>
-								</div> 
-								<div class="block block-60">
+									<header class="codrops-header">
 
-								-->
+										<h1>Kiosco Lauris</h1>
+										
+									</header>
 
-								<!--Aca van todos los cuadros de dialogo-->
-
-								<!-- Dialogos de menejo de productos -->
 							</div>
+
+							<!-- Dialogos de menejo de productos -->
 							<div id="dialog">
 
 								<div id="dialogAgregarProducto" style="visibility: hidden;">

@@ -1,20 +1,15 @@
 <?php
-include_once '../../../namespacesAdress.php';
+include_once '../../../../namespacesAdress.php';
 include_once negocio.'kioscoDatabaseLinker.class.php';
-
-
-$nivelDePantalla=3;
-$nivelDePerfil=5;
 
 $obj = new kioscoDatabaseLinker();
 
-if($nivelDePerfil<$nivelDePantalla)
+if(true)//aqui iria la funcion que vaalida el permiso a esta pantalla
 {
 	echo "<input type='hidden' value='false' id='habilitado'>";
 	echo "No tiene los permisos necesarios para <br> visualizar la pantalla";
 	return false;
 }
-
 
 ?>
 

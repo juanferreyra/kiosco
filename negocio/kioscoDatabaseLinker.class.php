@@ -1222,5 +1222,27 @@ class KioscoDatabaseLinker
 		return false;
 	}
 
+	function getNombreUsuario($id_user)
+	{
+		$query = "SELECT nombre FROM usuario WHERE detalle='".$id_user."';";
+
+		try 
+		{
+			$this->dbKiosco->conectar();
+			$this->dbKiosco->ejecutarQuery($query);
+		}
+		catch (Exception $e) 
+		{
+			throw new Exception("Error al realizar consulta de accesos de usuario", 17052013);
+			return false;
+		}
+
+		$result = $this->dbKiosco->fetchRow($query);
+
+		$this->dbKiosco->desconectar();
+
+		return $result['nombre'];
+	}
+
 }
 ?>

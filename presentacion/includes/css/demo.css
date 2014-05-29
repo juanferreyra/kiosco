@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
+/*@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);*/
 @font-face {
 	font-weight: normal;
 	font-style: normal;
@@ -28,7 +28,6 @@ a:hover, a:focus {
 	outline: none;
 }
 
-/* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
 .clearfix:before,
 .clearfix:after {
 	display: table;
@@ -206,4 +205,34 @@ a:hover, a:focus {
 		display: none;
 	}
 
+}
+
+#open
+{
+	float: left;
+}
+
+#open li 
+{
+    float: left;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    margin-right: 8px;
+}
+
+#account
+{
+	float: right;
+}
+
+#account li 
+{
+    float: left;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    margin-right: 8px;
 }

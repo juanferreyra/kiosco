@@ -1,5 +1,5 @@
 <?php
-include_once '../../../namespacesAdress.php';
+include_once '../../../../namespacesAdress.php';
 include_once negocio.'kioscoDatabaseLinker.class.php';
 
 $nivelDePantalla=3;
@@ -13,7 +13,6 @@ if($nivelDePerfil<$nivelDePantalla)
 	echo "No tiene los permisos necesarios para <br> visualizar la pantalla";
 	return false;
 }
-
 
 $rubros = $obj->getRubros();
 
