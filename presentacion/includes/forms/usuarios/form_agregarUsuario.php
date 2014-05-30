@@ -6,23 +6,89 @@ $dbKiosco = new KioscoDatabaseLinker();
 
 $acceso = $dbKiosco->traerPermisos();
 
+
 ?>
 <script type="text/javascript">
-	
+
+	function validar()
+	{
+		if(document.forms["agregarUsuarioform"]["nombre"].value=="" )
+		{
+			alert("Debe Ingresar el nombre completo");
+			return false;
+		}
+		if(document.forms["agregarUsuarioform"]["detalle"].value=="" )
+		{
+			alert("Debe Ingresar el nombre de usuario");
+			return false;
+		}
+		if(document.forms["agregarUsuarioform"]["contrasena"].value=="" )
+		{
+			alert("Debe Ingresar la contraseña");
+			return false;
+		}
+		if(document.forms["agregarUsuarioform"]["contra2"].value=="" )
+		{
+			alert("Debe Reingresar la contraseña");
+			return false;
+		}
+		
+		var acceso= document.getElementsByName('accesos[]');
+		var hasChecked=false;
+		for(var i=0; i< acceso.length; i++)
+		{
+			if(acceso[i].checked)
+			{
+				hasChecked=true;
+				break;
+			}
+		}
+		if(hasChecked==false)
+		{
+			alert("Debe ingresar al menos una pantalla de acceso");
+			return false;
+		}
+
+		return true;
+	}
+
+	$("#guardarUser").click(function(event){
+ 		event.preventDefault();
+ 		if(validar())
+ 		{
+            $.ajax({
+              	data: $('#agregarUsuarioform').serialize(),
+              	type: "POST",
+              	dataType: "json",
+              	url: "includes/ajaxFunctions/AgregarUsuarios.php",
+             	success: function(data)
+              	{
+            		alert(data.message);
+            		if(data.ret)
+            		{
+            			$('#agregarUsuarioform').get(0).reset();	
+            		}
+              	}
+            });
+        }
+
+    }); 
+
 </script>
 
 <div class="post" id="wrapper">
 	
 	<div id="page">
-		<form id="form1" name="form1" method="post" action="" >
 
-			<a>Nombre Completo: </a><input id="inputUsuario" name="usuario" placeholder="Apellido y nombre"></br>
+		<form id="agregarUsuarioform">
 
-			<a>Usuario de usuario: </a><input id="inputUsuario" name="usuario" placeholder="Identificacion de Usuario"></br>
+			<a>Nombre Completo: </a><input name="nombre" placeholder="Apellido y nombre"></br>
 
-			<a>Contras&ntilde;a: </a><input type="password" id="inputContrasenia" name="contra" placeholder="Password"></br>
+			<a>Usuario de usuario: </a><input name="detalle" placeholder="Identificacion de Usuario"></br>
 
-			<a>Vuelva a ingresar: </a><input type="password" id="inputContrasenia2" name="contra2" placeholder="Reingresar"></br>
+			<a>Contras&ntilde;a: </a><input type="password" name="contrasena" placeholder="Password"></br>
+
+			<a>Vuelva a ingresar: </a><input type="password" name="contra2" placeholder="Reingresar"></br>
 
 			<a>Este Usuario puede tener acceso a ...</a></br>
 
@@ -33,22 +99,11 @@ $acceso = $dbKiosco->traerPermisos();
 			}
 			?>
 
-			<input class="button" type="submit" id="guardarUser" name="guardarUser" value="Guardar" >
+			<input class="button" type="submit" id="guardarUser" value="Guardar" >
 
 		</form>
 
 	</div>
 
 </div>
-
- <?
-
-if(isset($_POST['guardarUser'])){
-	var_dump( $_POST['accesos']);
-	echo "</br>";
-foreach( $_POST['accesos'] as $key => $value ) 
-{
-   echo "Key: $key; Valor: $value<br>";
-}
-}
-?> 
+ 

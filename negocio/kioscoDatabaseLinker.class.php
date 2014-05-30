@@ -902,20 +902,27 @@ class KioscoDatabaseLinker
 
 		if ($this->usuarioExiste($data['detalle'])) 
 		{
-			$response->messaje = "El usuario ya existe papa!!";
-			$responde->ret = false;
-			return $respose;
+			$response->message = "El usuario ya existe papa!!";
+			$response->ret = false;
+			return $response;
 		}
 		else
 		{
+			if($data['contrasena']!= $data['contra2'])
+			{
+				$response->message = "La contraseña no coincide";
+				$response->ret = false;
+				return $response;
+			}
 			try 
 			{
-				$idusuario = $this->agregarUsuario($data['detalle'], $data['idturno'], $data['contrasena'], $data['nombre']);
+				$idusuario = $this->agregarUsuario($data['detalle'], 1/*pongo un idturno default*/, $data['contrasena'], $data['nombre']);
 			} 
 			catch (Exception $e) 
 			{
-				$response->messaje = "Ocurrio un error al crear el usuario";
+				$response->message = "Ocurrio un error al crear el usuario";
 				$response->ret = false;
+				return $response;
 			}
 
 			try //savepoint en registrarEgreso
@@ -925,24 +932,26 @@ class KioscoDatabaseLinker
 			catch (Exception $e) 
 			{
 				throw new Exception("error al registrar el movimiento", 17052013);
+				$response->message = "Se produjo un error al registrar los permisos";
 				$response->ret = false;
+				return $response;
 			}
 			
 			if(!$cargo)
 			{
-				$this->eliminarConfirmacion();
-				$response->messaje = "El usuario se a creado correctamente";
-				$response->ret = true;
+				$this->eliminarConfirmacionRegistro();
+				$response->message = "El usuario no se a creado correctamente";
+				$response->ret = false;
+				return $response;
 
 			}
 			else
 			{
 			    $this->finalizarRegistroUsuario();
-			    $responde->messaje = "Se ah producido un error al registrar el usuario";
-			    $response->ret = false;
+			    $response->message = "El usuario se a creado correctamente";
+			    $response->ret = true;
+			    return $response;
 			}
-
-			return $response;
 
 		}
 	}
@@ -1026,12 +1035,14 @@ class KioscoDatabaseLinker
 	{
 		$completado = true;
 
-		$query="SAVEPOINT savepoint;";
+		$query="SET AUTOCOMMIT=0;";
+		$query2= "SAVEPOINT punto;";
 
 		try
 			{
 				$this->dbKiosco->conectar();
-				$this->dbKiosco->ejecutarQuery($query);
+				$this->dbKiosco->ejecutarAccion($query);
+				$this->dbKiosco->ejecutarAccion($query2);
 			}
 		catch (Exception $e)
 			{
@@ -1051,12 +1062,13 @@ class KioscoDatabaseLinker
 			}
 		}
 
+
 		return $completado;
 	}
 
 	function registrarPermiso($idusuario, $perfil)
 	{	
-		$query="INSERT INTO usuario_permiso (idusuario, idpermiso) VALUES (".$idusuario.", '".$perfil."';";
+		$query="INSERT INTO usuario_permiso (idusuario, idpermiso) VALUES (".$idusuario.", '".$perfil."');";
 
 		try
 			{
@@ -1070,7 +1082,6 @@ class KioscoDatabaseLinker
 				return false;
 			}
 
-		$this->dbKiosco->desconectar();
 		return true;
 	}
 
@@ -1081,7 +1092,7 @@ class KioscoDatabaseLinker
 		try
 			{
 				$this->dbKiosco->conectar();
-				$this->dbKiosco->ejecutarQuery($query);
+				$this->dbKiosco->ejecutarAccion($query);
 			}
 		catch (Exception $e)
 			{
@@ -1093,12 +1104,12 @@ class KioscoDatabaseLinker
 
 	function eliminarConfirmacionRegistro()
 	{
-		$rollback = "ROLLBACK TO SAVEPOINT savepoint;"; 
+		$rollback = "ROLLBACK TO SAVEPOINT punto;"; 
 
 		try 
 		{
 			$this->dbKiosco->conectar();
-			$this->dbKiosco->ejecutarQuery($rollback);	
+			$this->dbKiosco->ejecutarAccion($rollback);	
 		} 
 		catch (Exception $e) 
 		{

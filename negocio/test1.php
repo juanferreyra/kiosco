@@ -43,6 +43,17 @@ $mov = new Movimiento();
 //var_dump($id['idturno']);
 //$obj->agregarUsuario("juan2",2,"jf2");
 
-$obj->ingresarRubro("rubroprueba");
+//$obj->ingresarRubro("rubroprueba");
+
+$arr = array();
+$arr[]='PRODUCTOS';
+$arr[]='VENTAS';
+
+
+
+$respuestalocaloca = $obj->registrarTodosPermisosUsuario(4,$arr);
+//$obj->eliminarConfirmacionRegistro();
+
+echo($respuestalocaloca);
 
 ?>
