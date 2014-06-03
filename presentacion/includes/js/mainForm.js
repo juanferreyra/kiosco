@@ -287,7 +287,15 @@ $(document).ready(function() {
       });       
     });
 
-    
+      $("#btnEliminarUsuario").click(function(){
+      $("#dialogEliminarUsuario").load("includes/forms/usuarios/form_eliminarUsuario.php");
+      $( "#dialog:ui-dialog" ).dialog( "destroy" );
+      $( "#dialogEliminarUsuario" ).css('visibility',"visible");
+      $( "#dialogEliminarUsuario" ).dialog({
+        title:"Eliminar Usuario",
+        resizable: false
+      });       
+    });
 
     
     

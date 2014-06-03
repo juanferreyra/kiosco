@@ -56,6 +56,7 @@ session_start();
 										<li><a class="icon icon-stack" href="#" id="btnAgregarRubro">Agregar Rubro</a></li>
 										<li><a class="icon icon-eye" href="#" id="btnVerRubro">Ver Rubros</a></li>
 										<li><a class="icon icon-male" href="#" id="btnAgregarUsuario">Agregar Usuarios</a></li>
+										<li><a class="icon icon-male" href="#" id="btnEliminarUsuario">Eliminar Usuario</a></li>
 
 									</ul>
 								</div>
@@ -145,6 +146,11 @@ session_start();
 								<!-- DIalogos de usuarios -->
 
 								<div id="dialogAgregarUsuario" style="visibility: hidden;">
+									
+
+								</div>
+
+								<div id="dialogEliminarUsuario" style="visibility: hidden;">
 									
 
 								</div>

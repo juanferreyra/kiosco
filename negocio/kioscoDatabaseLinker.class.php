@@ -1119,10 +1119,18 @@ class KioscoDatabaseLinker
 		$this->dbKiosco->desconectar();
 	}
 
-	function eliminarUsuario($idusuario)
+	function eliminarUsuario($data)
 	{
+		$response = new stdClass();
+		
+		if(!$this->usuarioExiste($data['usuario']))
+		{
+			$response->message = "El usuario que desea eliminar no existe!";
+			$response->ret = false;
+			return $response;
+		}
 
-		$query="UPDATE usuario set habilitado = 0 WHERE idusuario=".$idusuario." and habilitado = 1;";
+		$query="UPDATE usuario set habilitado = 0 WHERE detalle='".$data['usuario']."' and habilitado = 1;";
 
 		try
 			{
@@ -1130,11 +1138,15 @@ class KioscoDatabaseLinker
 				$this->dbKiosco->ejecutarAccion($query);
 			}
 		catch (Exception $e)
-			{
-				throw new Exception("Error al conectar con la base de datos", 17052013);
-				return false;
-			}
-		return true;
+		{
+			throw new Exception("Error al conectar con la base de datos", 17052013);
+			$response->message = "Error al eliminar el usuario";
+			$response->ret = false;
+			return $response;
+		}
+		$response->message = "El usuario se a eliminado correctamente";
+		$response->ret=true;
+		return $response;
 	}
 
 	function accesoKiosco($usuario, $contrasenaIngresada)
